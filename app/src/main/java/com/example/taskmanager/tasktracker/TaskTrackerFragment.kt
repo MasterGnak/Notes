@@ -1,10 +1,8 @@
 package com.example.taskmanager.tasktracker
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +12,8 @@ import com.example.taskmanager.database.TaskDatabase
 import com.example.taskmanager.databinding.FragmentTaskTrackerBinding
 
 class TaskTrackerFragment : Fragment() {
+
+    private lateinit var viewModel: TaskTrackerViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,17 +32,30 @@ class TaskTrackerFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val dataSource = TaskDatabase.getInstance(application).taskDatabaseDao
         val viewModelFactory = TaskTrackerViewModelFactory(dataSource, application)
-        val viewModel = ViewModelProvider(this, viewModelFactory).get(TaskTrackerViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(TaskTrackerViewModel::class.java)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        viewModel.tasks.observe(viewLifecycleOwner, Observer {
+        viewModel.tasks.observe(viewLifecycleOwner, {
             it?.let{
                 adapter.submitList(it)
             }
         })
-        
+
+        setHasOptionsMenu(true)
         return binding.root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_add_task_tracker, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.add_task) {
+            viewModel.addTask()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
