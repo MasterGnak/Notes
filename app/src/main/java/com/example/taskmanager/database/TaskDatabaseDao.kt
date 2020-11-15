@@ -15,8 +15,8 @@ interface TaskDatabaseDao {
     @Update
     fun update(task: Task)
 
-    @Delete
-    fun delete(task: Task)
+    @Query("DELETE FROM task_table")
+    fun clear()
 
     @Query("SELECT * FROM task_table")
     fun getAllTasks(): LiveData<List<Task>>

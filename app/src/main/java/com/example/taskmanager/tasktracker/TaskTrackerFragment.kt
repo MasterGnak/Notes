@@ -1,10 +1,13 @@
 package com.example.taskmanager.tasktracker
 
 import android.os.Bundle
+import android.text.InputType
+import android.util.Log
 import android.view.*
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskmanager.R
@@ -33,12 +36,37 @@ class TaskTrackerFragment : Fragment() {
         val dataSource = TaskDatabase.getInstance(application).taskDatabaseDao
         val viewModelFactory = TaskTrackerViewModelFactory(dataSource, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(TaskTrackerViewModel::class.java)
-
         binding.viewModel = viewModel
+
+        // Observe changes in the list
         binding.lifecycleOwner = this
         viewModel.tasks.observe(viewLifecycleOwner, {
             it?.let{
                 adapter.submitList(it)
+            }
+        })
+
+        viewModel.addButtonClicked.observe(viewLifecycleOwner, {
+            if (it == true) {
+                // Set up Alert Dialog
+                val builder = AlertDialog.Builder(this.context!!)
+                builder.setTitle(R.string.alert_title)
+                val input = EditText(context)
+                input.inputType = InputType.TYPE_CLASS_TEXT
+                builder.setView(input)
+
+                // Set up buttons
+                builder.setPositiveButton("OK") { dialog, _ ->
+                    run {
+                        dialog.dismiss()
+                        viewModel.addTask(input.text.toString())
+                        Log.i("AlertDialog", "Text submitted")
+                    }
+                }
+                builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+                viewModel.onAddButtonClickedEnded()
+
+                builder.show()
             }
         })
 
@@ -53,7 +81,7 @@ class TaskTrackerFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.add_task) {
-            viewModel.addTask()
+            viewModel.onAddButtonClicked()
             return true
         }
         return super.onOptionsItemSelected(item)
