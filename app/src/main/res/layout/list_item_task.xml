@@ -7,6 +7,6 @@
             android:id="@+id/task_entry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{task.name}"
+            android:text="@{task.name + ` ` + task.deadline}"
             tools:text="It is wednesday my dudes"/>
 </layout>

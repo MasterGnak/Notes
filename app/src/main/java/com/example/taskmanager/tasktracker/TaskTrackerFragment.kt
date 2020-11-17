@@ -1,8 +1,8 @@
 package com.example.taskmanager.tasktracker
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.*
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
@@ -11,8 +11,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskmanager.R
+import com.example.taskmanager.database.Task
 import com.example.taskmanager.database.TaskDatabase
 import com.example.taskmanager.databinding.FragmentTaskTrackerBinding
+import kotlinx.android.synthetic.main.task_name_edit_text.*
+import kotlinx.android.synthetic.main.task_name_edit_text.view.*
 
 class TaskTrackerFragment : Fragment() {
 
@@ -49,29 +52,59 @@ class TaskTrackerFragment : Fragment() {
         viewModel.addButtonClicked.observe(viewLifecycleOwner, {
             if (it == true) {
                 // Set up Alert Dialog
-                val builder = AlertDialog.Builder(this.context!!)
-                builder.setTitle(R.string.alert_title)
-                val input = EditText(context)
-                input.inputType = InputType.TYPE_CLASS_TEXT
-                builder.setView(input)
-
-                // Set up buttons
-                builder.setPositiveButton("OK") { dialog, _ ->
-                    run {
-                        dialog.dismiss()
-                        viewModel.addTask(input.text.toString())
-                        Log.i("AlertDialog", "Text submitted")
-                    }
+                val nameInput = inflater.inflate(R.layout.task_name_edit_text, null, false)
+                val deadlineInput = EditText(context)
+                deadlineInput.inputType = InputType.TYPE_CLASS_TEXT
+                val dialogMain = AlertDialog.Builder(this.context!!).
+                    setTitle("Enter task name").
+                    setView(nameInput).
+                    setPositiveButton("OK", null).
+                    setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }.
+                    create()
+                dialogMain.setOnShowListener{dialog ->
+                        dialogMain.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener{
+                            val taskName = nameInput.task_name_edit_text.text.toString()
+                            (nameInput.parent as ViewGroup).removeView(nameInput)
+                            dialog.cancel()
+                            AlertDialog.Builder(this.context!!).setTitle("Enter deadline").setView(deadlineInput)
+                                .setPositiveButton("OK") { dialog, _ ->
+                                    dialog.cancel()
+                                    viewModel.addTask(
+                                        Task(
+                                            name = taskName,
+                                            deadline = deadlineInput.text.toString()
+                                        )
+                                    )
+                                }.setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }.create().show()
+                        }
                 }
-                builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+                dialogMain.show()
                 viewModel.onAddButtonClickedEnded()
-
-                builder.show()
             }
         })
 
         setHasOptionsMenu(true)
         return binding.root
+    }
+
+    private fun getAlertDialog(
+        positiveLambda: ((dialog: DialogInterface, _: Int) -> Unit)?,
+        negativeLambda: ((dialog: DialogInterface, _: Int) -> Unit)?,
+        title: String
+    ): AlertDialog {
+        val builder = AlertDialog.Builder(this.context!!)
+        builder.setTitle(title)
+        val input = EditText(context)
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+
+
+        // Set up buttons
+        builder.setPositiveButton("OK", positiveLambda)
+        builder.setNegativeButton("Cancel", negativeLambda)
+
+
+        return builder.create()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

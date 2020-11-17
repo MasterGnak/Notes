@@ -26,10 +26,9 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
         _addButton.value = false
     }
 
-    fun addTask(taskName: String) {
+    fun addTask(task: Task) {
         viewModelScope.launch {
-            val newTask = Task(name = taskName)
-            insert(newTask)
+            insert(task)
         }
     }
 
