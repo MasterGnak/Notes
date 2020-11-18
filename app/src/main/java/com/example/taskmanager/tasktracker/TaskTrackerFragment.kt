@@ -87,25 +87,6 @@ class TaskTrackerFragment : Fragment() {
         return binding.root
     }
 
-    private fun getAlertDialog(
-        positiveLambda: ((dialog: DialogInterface, _: Int) -> Unit)?,
-        negativeLambda: ((dialog: DialogInterface, _: Int) -> Unit)?,
-        title: String
-    ): AlertDialog {
-        val builder = AlertDialog.Builder(this.context!!)
-        builder.setTitle(title)
-        val input = EditText(context)
-        input.inputType = InputType.TYPE_CLASS_TEXT
-        builder.setView(input)
-
-
-        // Set up buttons
-        builder.setPositiveButton("OK", positiveLambda)
-        builder.setNegativeButton("Cancel", negativeLambda)
-
-
-        return builder.create()
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)

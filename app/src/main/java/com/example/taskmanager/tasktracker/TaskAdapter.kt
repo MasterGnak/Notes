@@ -8,16 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taskmanager.database.Task
 import com.example.taskmanager.databinding.ListItemTaskBinding
 
-class TaskAdapter(): ListAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallback()) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskAdapter.ViewHolder {
+class TaskAdapter : ListAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallback()) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
     }
 
-    override fun onBindViewHolder(holder: TaskAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class ViewHolder private constructor(val binding: ListItemTaskBinding): RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder private constructor(private val binding: ListItemTaskBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(task: Task) {
             binding.task = task
             binding.executePendingBindings()
