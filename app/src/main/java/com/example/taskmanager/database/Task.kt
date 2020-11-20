@@ -17,6 +17,8 @@ data class Task(
     var deadline: String = "New year",
 
     @ColumnInfo
-    var priority: Int = 1) {
+    var priority: Int = 1,
 
+    var selected: Boolean = false
+    ) {
 }

@@ -14,16 +14,44 @@ import kotlinx.coroutines.withContext
 class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Application): AndroidViewModel(application) {
     val tasks = database.getAllTasks()
 
-    private val _addButton = MutableLiveData<Boolean>()
+    val selectedTasks = mutableListOf<Task>()
+    val anySelected: Boolean
+        get() = selectedTasks.isNotEmpty()
+
+    private val _addButtonClicked = MutableLiveData<Boolean>()
     val addButtonClicked: LiveData<Boolean>
-        get() = _addButton
+        get() = _addButtonClicked
+
+    private val _taskNameClicked = MutableLiveData<Task?>()
+    val taskNameClicked: LiveData<Task?>
+        get() = _taskNameClicked
+
+    private val _taskDeadlineClicked = MutableLiveData<Task?>()
+    val taskDeadlineClicked: LiveData<Task?>
+        get() = _taskDeadlineClicked
 
     fun onAddButtonClicked() {
-        _addButton.value = true
+        _addButtonClicked.value = true
     }
 
-    fun onAddButtonClickedEnded() {
-        _addButton.value = false
+    fun onAddButtonClickedFinish() {
+        _addButtonClicked.value = false
+    }
+
+    fun onTaskNameClicked(task: Task) {
+        _taskNameClicked.value = task
+    }
+
+    fun onTaskNameClickedFinish() {
+        _taskNameClicked.value = null
+    }
+
+    fun onTaskDeadlineClicked(task: Task) {
+        _taskDeadlineClicked.value = task
+    }
+
+    fun onTaskDeadlineClickedFinish() {
+        _taskDeadlineClicked.value = null
     }
 
     fun addTask(task: Task) {
@@ -32,9 +60,21 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
         }
     }
 
-    suspend fun insert(task: Task) {
+    private suspend fun insert(task: Task) {
         withContext(Dispatchers.IO){
             database.insert(task)
+        }
+    }
+
+    fun updateTask(task: Task) {
+        viewModelScope.launch {
+            update(task)
+        }
+    }
+
+    private suspend fun update(task: Task) {
+        withContext(Dispatchers.IO) {
+            database.update(task)
         }
     }
 
@@ -42,9 +82,10 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
         viewModelScope.launch{ clear() }
     }
 
-    suspend fun clear() {
+    private suspend fun clear() {
         withContext(Dispatchers.IO) {
-            database.clear()
+            database.deleteTasks(selectedTasks)
+            selectedTasks.clear()
         }
     }
 }

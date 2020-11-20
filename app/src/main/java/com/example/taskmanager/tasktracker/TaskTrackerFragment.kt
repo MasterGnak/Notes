@@ -1,6 +1,5 @@
 package com.example.taskmanager.tasktracker
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputType
 import android.view.*
@@ -9,12 +8,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskmanager.R
 import com.example.taskmanager.database.Task
 import com.example.taskmanager.database.TaskDatabase
 import com.example.taskmanager.databinding.FragmentTaskTrackerBinding
-import kotlinx.android.synthetic.main.task_name_edit_text.*
 import kotlinx.android.synthetic.main.task_name_edit_text.view.*
 
 class TaskTrackerFragment : Fragment() {
@@ -28,26 +25,42 @@ class TaskTrackerFragment : Fragment() {
         // Inflate the layout for this fragment
         val binding: FragmentTaskTrackerBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_task_tracker, container, false)
 
-        // Set up a recycler view
-        val adapter = TaskAdapter()
-        val manager = LinearLayoutManager(activity)
-        binding.taskList.adapter = adapter
-        binding.taskList.layoutManager = manager
-
         // Set up viewModel, that contains reference to data
         val application = requireNotNull(this.activity).application
         val dataSource = TaskDatabase.getInstance(application).taskDatabaseDao
         val viewModelFactory = TaskTrackerViewModelFactory(dataSource, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(TaskTrackerViewModel::class.java)
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
+        // Set up a recycler view
+        val adapter = TaskAdapter(TaskAdapter.ClickListener(
+            //onLongClick
+            {
+                it.selected = !it.selected
+                if(it.selected) viewModel.selectedTasks.add(it)
+                else viewModel.selectedTasks.remove(it)
+                true
+            },
+            //onClick
+            {
+                it.selected = !it.selected
+                if(it.selected) viewModel.selectedTasks.add(it)
+                else viewModel.selectedTasks.remove(it)
+            },
+            //onNameClick
+            {if(!viewModel.anySelected) viewModel.onTaskNameClicked(it)},
+            //onDeadlineClick
+            {if(!viewModel.anySelected) viewModel.onTaskDeadlineClicked(it)}))
+        binding.taskList.adapter = adapter
+
 
         // Observe changes in the list
-        binding.lifecycleOwner = this
-        viewModel.tasks.observe(viewLifecycleOwner, {
-            it?.let{
-                adapter.submitList(it)
-            }
-        })
+//        viewModel.tasks.observe(viewLifecycleOwner, {
+//            it?.let{
+//                adapter.submitList(it)
+//            }
+//        })
 
         viewModel.addButtonClicked.observe(viewLifecycleOwner, {
             if (it == true) {
@@ -79,7 +92,43 @@ class TaskTrackerFragment : Fragment() {
                         }
                 }
                 dialogMain.show()
-                viewModel.onAddButtonClickedEnded()
+                viewModel.onAddButtonClickedFinish()
+            }
+        })
+
+        viewModel.taskNameClicked.observe(viewLifecycleOwner, {
+            if (it != null) {
+                val newNameInput = EditText(context)
+                newNameInput.inputType = InputType.TYPE_CLASS_TEXT
+                AlertDialog.Builder(this.context!!).
+                setTitle("Enter task name").
+                setView(newNameInput).
+                setPositiveButton("OK") {dialog, _ ->
+                    it.name = newNameInput.text.toString()
+                    viewModel.updateTask(it)
+                    dialog.dismiss()
+                }.
+                setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }.
+                create().show()
+                viewModel.onTaskNameClickedFinish()
+            }
+        })
+
+        viewModel.taskDeadlineClicked.observe(viewLifecycleOwner, {
+            if (it != null) {
+                val newDeadlineInput = EditText(context)
+                newDeadlineInput.inputType = InputType.TYPE_CLASS_TEXT
+                AlertDialog.Builder(this.context!!).
+                setTitle("Enter deadline").
+                setView(newDeadlineInput).
+                setPositiveButton("OK") {dialog, _ ->
+                    it.deadline = newDeadlineInput.text.toString()
+                    viewModel.updateTask(it)
+                    dialog.dismiss()
+                }.
+                setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }.
+                create().show()
+                viewModel.onTaskDeadlineClickedFinish()
             }
         })
 
@@ -94,7 +143,7 @@ class TaskTrackerFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.add_task) {
+        if (item.itemId == R.id.add_task && !viewModel.anySelected) {
             viewModel.onAddButtonClicked()
             return true
         }
