@@ -19,6 +19,4 @@ data class Task(
     @ColumnInfo
     var priority: Int = 1,
 
-    var selected: Boolean = false
-    ) {
-}
+    )

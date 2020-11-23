@@ -8,6 +8,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StorageStrategy
 import com.example.taskmanager.R
 import com.example.taskmanager.database.Task
 import com.example.taskmanager.database.TaskDatabase
@@ -37,30 +39,25 @@ class TaskTrackerFragment : Fragment() {
         val adapter = TaskAdapter(TaskAdapter.ClickListener(
             //onLongClick
             {
-                it.selected = !it.selected
-                if(it.selected) viewModel.selectedTasks.add(it)
-                else viewModel.selectedTasks.remove(it)
                 true
             },
-            //onClick
-            {
-                it.selected = !it.selected
-                if(it.selected) viewModel.selectedTasks.add(it)
-                else viewModel.selectedTasks.remove(it)
-            },
+
             //onNameClick
-            {if(!viewModel.anySelected) viewModel.onTaskNameClicked(it)},
+            {viewModel.onTaskNameClicked(it)},
+
             //onDeadlineClick
-            {if(!viewModel.anySelected) viewModel.onTaskDeadlineClicked(it)}))
+            {viewModel.onTaskDeadlineClicked(it)}
+
+        ))
         binding.taskList.adapter = adapter
-
-
-        // Observe changes in the list
-//        viewModel.tasks.observe(viewLifecycleOwner, {
-//            it?.let{
-//                adapter.submitList(it)
-//            }
-//        })
+        val tracker = SelectionTracker.Builder<Long>(
+            "taskSelection",
+            binding.taskList,
+            TaskAdapter.TaskItemKeyProvider(),
+            TaskAdapter.TaskDetailsLookup(binding.taskList),
+            StorageStrategy.createLongStorage()
+        ).withSelectionPredicate(TaskAdapter.Predicate()).build()
+        adapter.setSelectionTracker(tracker)
 
         viewModel.addButtonClicked.observe(viewLifecycleOwner, {
             if (it == true) {
@@ -143,7 +140,7 @@ class TaskTrackerFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.add_task && !viewModel.anySelected) {
+        if (item.itemId == R.id.add_task) {
             viewModel.onAddButtonClicked()
             return true
         }

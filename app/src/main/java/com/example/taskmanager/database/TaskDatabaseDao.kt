@@ -21,7 +21,7 @@ interface TaskDatabaseDao {
     @Query("DELETE FROM task_table")
     fun clear()
 
-    @Query("SELECT * FROM task_table")
+    @Query("SELECT * FROM task_table ORDER BY taskId DESC")
     fun getAllTasks(): LiveData<List<Task>>
 
     @Query("SELECT COUNT(taskId) FROM task_table")

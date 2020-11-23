@@ -1,6 +1,7 @@
 package com.example.taskmanager.tasktracker
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,10 +14,6 @@ import kotlinx.coroutines.withContext
 
 class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Application): AndroidViewModel(application) {
     val tasks = database.getAllTasks()
-
-    val selectedTasks = mutableListOf<Task>()
-    val anySelected: Boolean
-        get() = selectedTasks.isNotEmpty()
 
     private val _addButtonClicked = MutableLiveData<Boolean>()
     val addButtonClicked: LiveData<Boolean>
@@ -75,6 +72,7 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
     private suspend fun update(task: Task) {
         withContext(Dispatchers.IO) {
             database.update(task)
+            Log.i("viewModel", "Task ${task.name} updated")
         }
     }
 
@@ -84,8 +82,7 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
 
     private suspend fun clear() {
         withContext(Dispatchers.IO) {
-            database.deleteTasks(selectedTasks)
-            selectedTasks.clear()
+            database.clear()
         }
     }
 }
