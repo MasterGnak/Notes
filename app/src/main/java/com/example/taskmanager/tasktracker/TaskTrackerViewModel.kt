@@ -27,6 +27,14 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
     val taskDeadlineClicked: LiveData<Task?>
         get() = _taskDeadlineClicked
 
+    private val _selectionEnabled = MutableLiveData<Boolean>()
+    val selectionEnabled: LiveData<Boolean>
+        get() = _selectionEnabled
+
+    init{
+        _selectionEnabled.value = false
+    }
+
     fun onAddButtonClicked() {
         _addButtonClicked.value = true
     }
@@ -49,6 +57,14 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
 
     fun onTaskDeadlineClickedFinish() {
         _taskDeadlineClicked.value = null
+    }
+
+    fun enableSelection() {
+        _selectionEnabled.value = true
+    }
+
+    fun disableSelection() {
+        _selectionEnabled.value = false
     }
 
     fun addTask(task: Task) {

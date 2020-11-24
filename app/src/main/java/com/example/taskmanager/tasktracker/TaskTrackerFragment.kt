@@ -2,6 +2,7 @@ package com.example.taskmanager.tasktracker
 
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.*
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
@@ -36,9 +37,28 @@ class TaskTrackerFragment : Fragment() {
         binding.lifecycleOwner = this
 
         // Set up a recycler view
-        val adapter = TaskAdapter(TaskAdapter.ClickListener(
+        val adapter = TaskAdapter()
+        binding.taskList.adapter = adapter
+        val tracker = SelectionTracker.Builder<Long>(
+            "taskSelection",
+            binding.taskList,
+            TaskAdapter.TaskItemKeyProvider(adapter),
+            TaskAdapter.TaskDetailsLookup(binding.taskList),
+            StorageStrategy.createLongStorage()
+        ).withSelectionPredicate(TaskAdapter.Predicate(viewModel)).build()
+        tracker.addObserver(object: SelectionTracker.SelectionObserver<Long>() {
+            override fun onSelectionChanged() {
+                super.onSelectionChanged()
+                if (!tracker.hasSelection()) viewModel.disableSelection()
+            }
+        })
+        adapter.setSelectionTracker(tracker)
+        adapter.setClickListener(TaskAdapter.ClickListener(
             //onLongClick
             {
+                Log.i("Click listener", "Long click used")
+                viewModel.enableSelection()
+                tracker.select(it.taskId)
                 true
             },
 
@@ -49,15 +69,6 @@ class TaskTrackerFragment : Fragment() {
             {viewModel.onTaskDeadlineClicked(it)}
 
         ))
-        binding.taskList.adapter = adapter
-        val tracker = SelectionTracker.Builder<Long>(
-            "taskSelection",
-            binding.taskList,
-            TaskAdapter.TaskItemKeyProvider(),
-            TaskAdapter.TaskDetailsLookup(binding.taskList),
-            StorageStrategy.createLongStorage()
-        ).withSelectionPredicate(TaskAdapter.Predicate()).build()
-        adapter.setSelectionTracker(tracker)
 
         viewModel.addButtonClicked.observe(viewLifecycleOwner, {
             if (it == true) {

@@ -18,7 +18,17 @@ import com.example.taskmanager.database.Task
 import com.example.taskmanager.databinding.ListItemTaskBinding
 
 
-class TaskAdapter(private val clickListener: ClickListener) : ListAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallback) {
+class TaskAdapter() : ListAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallback) {
+
+    private lateinit var clickListener: ClickListener
+
+    fun setClickListener(clickL: ClickListener) {
+        clickListener = clickL
+    }
+
+    override fun getItemId(position: Int): Long {
+        return getItem(position).taskId
+    }
 
     private var selectionTracker: SelectionTracker<Long>? = null
 
@@ -32,23 +42,23 @@ class TaskAdapter(private val clickListener: ClickListener) : ListAdapter<Task, 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val task = getItem(position)
-        holder.details.pos = position
-        holder.bind(task, selectionTracker!!.isSelected(position.toLong()))
-
+        holder.bind(task, selectionTracker!!.isSelected(task.taskId))
         val name = holder.itemView.findViewById<TextView>(R.id.task_name)
         val deadline = holder.itemView.findViewById<TextView>(R.id.task_deadline)
 
-        name.setOnLongClickListener{
-            clickListener.onLongClick(task)
-        }
+        holder.itemView.setOnLongClickListener{clickListener.onLongClick(task)}
 
-        deadline.setOnLongClickListener{
-            clickListener.onLongClick(task)
-        }
-
-        name.setOnClickListener{clickListener.onNameClicked(task)}
-
-        deadline.setOnClickListener{clickListener.onDeadlineClicked(task)}
+////        name.setOnLongClickListener{
+////            clickListener.onLongClick(task)
+////        }
+////
+////        deadline.setOnLongClickListener{
+////            clickListener.onLongClick(task)
+////        }
+//
+//        name.setOnClickListener{clickListener.onNameClicked(task)}
+//
+//        deadline.setOnClickListener{clickListener.onDeadlineClicked(task)}
     }
 
     class ViewHolder private constructor(private val binding: ListItemTaskBinding): RecyclerView.ViewHolder(binding.root) {
@@ -56,6 +66,7 @@ class TaskAdapter(private val clickListener: ClickListener) : ListAdapter<Task, 
 
         fun bind(task: Task, isActivated: Boolean) {
             binding.task = task
+            details.key = task.taskId
             itemView.isActivated = isActivated
             binding.executePendingBindings()
         }
@@ -67,6 +78,7 @@ class TaskAdapter(private val clickListener: ClickListener) : ListAdapter<Task, 
         }
 
         fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> {
+            details.pos = layoutPosition
             return details
         }
     }
@@ -92,13 +104,14 @@ class TaskAdapter(private val clickListener: ClickListener) : ListAdapter<Task, 
 
     class Details: ItemDetailsLookup.ItemDetails<Long>() {
         var pos: Int = -1
+        var key: Long = -1L
 
         override fun getPosition(): Int {
             return pos
         }
 
         override fun getSelectionKey(): Long? {
-            return pos.toLong()
+            return key
         }
 
         override fun inSelectionHotspot(e: MotionEvent): Boolean {
@@ -106,14 +119,23 @@ class TaskAdapter(private val clickListener: ClickListener) : ListAdapter<Task, 
         }
     }
 
-    class TaskItemKeyProvider():
+    class TaskItemKeyProvider(private val adapter: TaskAdapter):
         ItemKeyProvider<Long>(SCOPE_CACHED) {
         override fun getKey(position: Int): Long {
-            return position.toLong()
+            Log.i("getKey", "Getting key at pos $position, key = ${adapter.getItemId(position)}")
+            return adapter.getItemId(position)
         }
 
         override fun getPosition(key: Long): Int {
-            return key.toInt()
+
+            var i = 0
+            while(true) {
+                if (adapter.getItemId(i) == key) {
+                    Log.i("getPosition", "Getting position of key $key, position = $i")
+                    return i
+                }
+                i++
+            }
         }
     }
 
@@ -128,13 +150,13 @@ class TaskAdapter(private val clickListener: ClickListener) : ListAdapter<Task, 
         }
     }
 
-    class Predicate: SelectionTracker.SelectionPredicate<Long>() {
+    class Predicate(private val viewModel: TaskTrackerViewModel): SelectionTracker.SelectionPredicate<Long>() {
         override fun canSetStateForKey(key: Long, nextState: Boolean): Boolean {
-            return true
+            return viewModel.selectionEnabled.value!!
         }
 
         override fun canSetStateAtPosition(position: Int, nextState: Boolean): Boolean {
-            return true
+            return viewModel.selectionEnabled.value!!
         }
 
         override fun canSelectMultiple(): Boolean {
