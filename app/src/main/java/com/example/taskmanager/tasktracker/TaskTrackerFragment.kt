@@ -49,25 +49,24 @@ class TaskTrackerFragment : Fragment() {
         tracker.addObserver(object: SelectionTracker.SelectionObserver<Long>() {
             override fun onSelectionChanged() {
                 super.onSelectionChanged()
-                if (!tracker.hasSelection()) viewModel.disableSelection()
+                if (!tracker.hasSelection()) {
+                    viewModel.disableSelection()
+                    activity?.invalidateOptionsMenu()
+                }
             }
         })
         adapter.setSelectionTracker(tracker)
         adapter.setClickListener(TaskAdapter.ClickListener(
             //onLongClick
             {
-                Log.i("Click listener", "Long click used")
                 viewModel.enableSelection()
                 tracker.select(it.taskId)
+                activity?.invalidateOptionsMenu()
                 true
             },
 
-            //onNameClick
-            {viewModel.onTaskNameClicked(it)},
-
-            //onDeadlineClick
-            {viewModel.onTaskDeadlineClicked(it)}
-
+            //onClick
+            {}
         ))
 
         viewModel.addButtonClicked.observe(viewLifecycleOwner, {
@@ -104,39 +103,14 @@ class TaskTrackerFragment : Fragment() {
             }
         })
 
-        viewModel.taskNameClicked.observe(viewLifecycleOwner, {
-            if (it != null) {
-                val newNameInput = EditText(context)
-                newNameInput.inputType = InputType.TYPE_CLASS_TEXT
-                AlertDialog.Builder(this.context!!).
-                setTitle("Enter task name").
-                setView(newNameInput).
-                setPositiveButton("OK") {dialog, _ ->
-                    it.name = newNameInput.text.toString()
-                    viewModel.updateTask(it)
-                    dialog.dismiss()
-                }.
-                setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }.
-                create().show()
-                viewModel.onTaskNameClickedFinish()
-            }
-        })
-
-        viewModel.taskDeadlineClicked.observe(viewLifecycleOwner, {
-            if (it != null) {
-                val newDeadlineInput = EditText(context)
-                newDeadlineInput.inputType = InputType.TYPE_CLASS_TEXT
-                AlertDialog.Builder(this.context!!).
-                setTitle("Enter deadline").
-                setView(newDeadlineInput).
-                setPositiveButton("OK") {dialog, _ ->
-                    it.deadline = newDeadlineInput.text.toString()
-                    viewModel.updateTask(it)
-                    dialog.dismiss()
-                }.
-                setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }.
-                create().show()
-                viewModel.onTaskDeadlineClickedFinish()
+        viewModel.nukeClicked.observe(viewLifecycleOwner, { bool ->
+            if (bool) {
+                viewModel.nuke(tracker.selection.mapNotNull {
+                    val task = viewModel.getTask(it)
+                    task
+                })
+                tracker.clearSelection()
+                viewModel.onNukeFinished()
             }
         })
 
@@ -156,5 +130,17 @@ class TaskTrackerFragment : Fragment() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        val addButton = menu.findItem(R.id.add_task)
+        if (viewModel.selectionEnabled.value!!) {
+            addButton.isEnabled = false
+            addButton.isVisible = false
+        } else {
+            addButton.isEnabled = true
+            addButton.isVisible = true
+        }
     }
 }

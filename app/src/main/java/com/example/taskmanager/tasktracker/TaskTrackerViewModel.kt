@@ -10,6 +10,7 @@ import com.example.taskmanager.database.Task
 import com.example.taskmanager.database.TaskDatabaseDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Application): AndroidViewModel(application) {
@@ -18,14 +19,6 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
     private val _addButtonClicked = MutableLiveData<Boolean>()
     val addButtonClicked: LiveData<Boolean>
         get() = _addButtonClicked
-
-    private val _taskNameClicked = MutableLiveData<Task?>()
-    val taskNameClicked: LiveData<Task?>
-        get() = _taskNameClicked
-
-    private val _taskDeadlineClicked = MutableLiveData<Task?>()
-    val taskDeadlineClicked: LiveData<Task?>
-        get() = _taskDeadlineClicked
 
     private val _selectionEnabled = MutableLiveData<Boolean>()
     val selectionEnabled: LiveData<Boolean>
@@ -41,22 +34,6 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
 
     fun onAddButtonClickedFinish() {
         _addButtonClicked.value = false
-    }
-
-    fun onTaskNameClicked(task: Task) {
-        _taskNameClicked.value = task
-    }
-
-    fun onTaskNameClickedFinish() {
-        _taskNameClicked.value = null
-    }
-
-    fun onTaskDeadlineClicked(task: Task) {
-        _taskDeadlineClicked.value = task
-    }
-
-    fun onTaskDeadlineClickedFinish() {
-        _taskDeadlineClicked.value = null
     }
 
     fun enableSelection() {
@@ -88,17 +65,44 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
     private suspend fun update(task: Task) {
         withContext(Dispatchers.IO) {
             database.update(task)
-            Log.i("viewModel", "Task ${task.name} updated")
         }
     }
 
-    fun nuke() {
-        viewModelScope.launch{ clear() }
+    private val _nukeClicked = MutableLiveData<Boolean>()
+    val nukeClicked: LiveData<Boolean>
+        get() = _nukeClicked
+
+    fun onNukeClicked() {
+        _nukeClicked.value = true
     }
 
-    private suspend fun clear() {
+    fun onNukeFinished() {
+        _nukeClicked.value = false
+    }
+
+    fun nuke(selected: List<Task>) {
+        viewModelScope.launch{ clear(selected) }
+    }
+
+    private suspend fun clear(selected: List<Task>) {
         withContext(Dispatchers.IO) {
-            database.clear()
+            database.deleteTasks(selected)
         }
+    }
+
+    fun getTask(key: Long): Task? {
+        var task: Task? = null
+        runBlocking{
+            task = get(key)
+        }
+        return task
+    }
+
+    private suspend fun get(key: Long): Task? {
+        var task: Task?
+        withContext(Dispatchers.IO) {
+            task =  database.getTask(key)
+        }
+        return task
     }
 }

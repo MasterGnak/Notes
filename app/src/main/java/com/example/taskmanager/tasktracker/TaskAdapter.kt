@@ -1,19 +1,16 @@
 package com.example.taskmanager.tasktracker
 
-import android.graphics.Color
+
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.view.size
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.taskmanager.R
 import com.example.taskmanager.database.Task
 import com.example.taskmanager.databinding.ListItemTaskBinding
 
@@ -43,22 +40,7 @@ class TaskAdapter() : ListAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallback
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val task = getItem(position)
         holder.bind(task, selectionTracker!!.isSelected(task.taskId))
-        val name = holder.itemView.findViewById<TextView>(R.id.task_name)
-        val deadline = holder.itemView.findViewById<TextView>(R.id.task_deadline)
-
         holder.itemView.setOnLongClickListener{clickListener.onLongClick(task)}
-
-////        name.setOnLongClickListener{
-////            clickListener.onLongClick(task)
-////        }
-////
-////        deadline.setOnLongClickListener{
-////            clickListener.onLongClick(task)
-////        }
-//
-//        name.setOnClickListener{clickListener.onNameClicked(task)}
-//
-//        deadline.setOnClickListener{clickListener.onDeadlineClicked(task)}
     }
 
     class ViewHolder private constructor(private val binding: ListItemTaskBinding): RecyclerView.ViewHolder(binding.root) {
@@ -83,12 +65,10 @@ class TaskAdapter() : ListAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallback
         }
     }
 
-    class ClickListener(val longClickListener: (task: Task) -> Boolean,
-                        val nameClickListener: (task: Task) -> Unit,
-                        val deadlineClickListener: (task: Task) -> Unit) {
-        fun onLongClick(task: Task) = longClickListener(task)
-        fun onNameClicked(task: Task) = nameClickListener(task)
-        fun onDeadlineClicked(task: Task) = deadlineClickListener(task)
+    class ClickListener(val onLongClickListener: (task: Task) -> Boolean,
+                        val onClickListener: (task: Task) -> Unit, ) {
+        fun onLongClick(task: Task) = onLongClickListener(task)
+        fun onClick(task: Task) = onClickListener(task)
     }
 
     companion object TaskDiffCallback: DiffUtil.ItemCallback<Task>() {
@@ -97,7 +77,6 @@ class TaskAdapter() : ListAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallback
         }
 
         override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
-            Log.i("Task adapter", "Comparing contents the same ${oldItem.name} and ${newItem.name}, result is ${oldItem == newItem}")
             return oldItem == newItem
         }
     }
@@ -122,16 +101,13 @@ class TaskAdapter() : ListAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallback
     class TaskItemKeyProvider(private val adapter: TaskAdapter):
         ItemKeyProvider<Long>(SCOPE_CACHED) {
         override fun getKey(position: Int): Long {
-            Log.i("getKey", "Getting key at pos $position, key = ${adapter.getItemId(position)}")
             return adapter.getItemId(position)
         }
 
         override fun getPosition(key: Long): Int {
-
             var i = 0
             while(true) {
                 if (adapter.getItemId(i) == key) {
-                    Log.i("getPosition", "Getting position of key $key, position = $i")
                     return i
                 }
                 i++
