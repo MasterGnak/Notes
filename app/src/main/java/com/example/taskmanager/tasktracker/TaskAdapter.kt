@@ -41,6 +41,7 @@ class TaskAdapter() : ListAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallback
         val task = getItem(position)
         holder.bind(task, selectionTracker!!.isSelected(task.taskId))
         holder.itemView.setOnLongClickListener{clickListener.onLongClick(task)}
+        holder.itemView.setOnClickListener{clickListener.onClick(task)}
     }
 
     class ViewHolder private constructor(private val binding: ListItemTaskBinding): RecyclerView.ViewHolder(binding.root) {

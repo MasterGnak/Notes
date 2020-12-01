@@ -24,6 +24,10 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
     val selectionEnabled: LiveData<Boolean>
         get() = _selectionEnabled
 
+    private val _navigateToSelectedTask = MutableLiveData<Task?>()
+    val navigateToSelectedTask: LiveData<Task?>
+        get() = _navigateToSelectedTask
+
     init{
         _selectionEnabled.value = false
     }
@@ -42,6 +46,14 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
 
     fun disableSelection() {
         _selectionEnabled.value = false
+    }
+
+    fun displayTaskDetails(task: Task) {
+        _navigateToSelectedTask.value = task
+    }
+
+    fun displayTaskFinish() {
+        _navigateToSelectedTask.value = null
     }
 
     fun addTask(task: Task) {
@@ -105,4 +117,6 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
         }
         return task
     }
+
+
 }

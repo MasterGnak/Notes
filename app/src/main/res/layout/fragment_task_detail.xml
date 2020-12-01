@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="viewModel" type="com.example.taskmanager.taskdetail.TaskDetailViewModel"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".taskdetail.TaskDetailFragment">
+
+        <EditText
+                android:layout_width="0dp"
+                android:layout_height="@dimen/item_height"
+                android:inputType="textPersonName"
+                android:id="@+id/editTextTaskName"
+                android:text="@{viewModel.selectedTask.name}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/editTextDeadline"
+                android:singleLine="true"
+                android:background="@drawable/item_background"
+                style="@style/itemTextStyle"
+                app:visible="@{viewModel.textViewClicked}"
+                />
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/item_height"
+                android:id="@+id/textViewTaskName"
+                android:text="@{viewModel.selectedTask.name}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/editTextDeadline"
+                android:singleLine="true"
+                android:background="@drawable/item_background"
+                style="@style/itemTextStyle"
+                app:visible="@{viewModel.textViewClicked}"
+                android:onClick="@{() -> viewModel.enableEditing(editTextTaskName.getId())}"
+                tools:text="Name"/>
+        <EditText
+                android:layout_width="0dp"
+                android:layout_height="@dimen/item_height"
+                android:inputType="date"
+                android:id="@+id/editTextDeadline"
+                android:text="@{viewModel.selectedTask.deadline}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintDimensionRatio="w,3:1"
+                android:background="@drawable/item_background"
+                style="@style/itemTextStyle"
+                app:visible="@{viewModel.textViewClicked}"
+        />
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/item_height"
+                android:id="@+id/textViewDeadline"
+                android:text="@{viewModel.selectedTask.deadline}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintDimensionRatio="w,3:1"
+                android:background="@drawable/item_background"
+                style="@style/itemTextStyle"
+                app:visible="@{viewModel.textViewClicked}"
+                android:onClick="@{() -> viewModel.enableEditing(editTextDeadline.getId())}"
+                tools:text="Date"/>
+        <ScrollView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/guideline"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/item_background"
+                android:onClick="@{() -> viewModel.enableEditing(editTextTaskDetail.getId())}"
+                app:visible="@{viewModel.textViewClicked == null}">
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewTaskDetail"
+                    android:textAlignment="viewStart"
+                    style="@style/itemTextStyle"
+                    android:text="@{viewModel.selectedTask.detail}"
+                    android:lineSpacingMultiplier="1.2"
+                    android:background="@color/colorDefault"
+                    tools:text="@string/kira"/>
+        </ScrollView>
+        <ScrollView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/guideline"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/item_background"
+                app:visible="@{viewModel.textViewClicked != null}">
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:id="@+id/editTextTaskDetail"
+                    android:textAlignment="viewStart"
+                    style="@style/itemTextStyle"
+                    android:text="@{viewModel.selectedTask.detail}"
+                    android:lineSpacingMultiplier="1.2"
+                    android:background="@color/colorDefault"
+            />
+        </ScrollView>
+        <androidx.constraintlayout.widget.Guideline
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" app:layout_constraintGuide_begin="45dp"
+                android:id="@+id/guideline"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

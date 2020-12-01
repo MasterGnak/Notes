@@ -5,5 +5,18 @@
 
     <fragment android:id="@+id/taskTrackerFragment"
               android:name="com.example.taskmanager.tasktracker.TaskTrackerFragment"
-              android:label="TaskTrackerFragment"/>
+              android:label="TaskTrackerFragment">
+        <action android:id="@+id/action_showDetail"
+                app:destination="@id/taskDetailFragment"/>
+    </fragment>
+
+
+    <fragment android:id="@+id/taskDetailFragment"
+              android:name="com.example.taskmanager.taskdetail.TaskDetailFragment"
+              android:label="TaskDetailFragment">
+        <argument android:name="selectedTask"
+                  app:argType="com.example.taskmanager.database.Task"/>
+    </fragment>
+
+
 </navigation>

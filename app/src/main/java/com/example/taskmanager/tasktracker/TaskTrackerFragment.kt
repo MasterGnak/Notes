@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import com.example.taskmanager.R
@@ -39,7 +40,7 @@ class TaskTrackerFragment : Fragment() {
         // Set up a recycler view
         val adapter = TaskAdapter()
         binding.taskList.adapter = adapter
-        val tracker = SelectionTracker.Builder<Long>(
+        val tracker = SelectionTracker.Builder(
             "taskSelection",
             binding.taskList,
             TaskAdapter.TaskItemKeyProvider(adapter),
@@ -66,7 +67,9 @@ class TaskTrackerFragment : Fragment() {
             },
 
             //onClick
-            {}
+            {
+                viewModel.displayTaskDetails(it)
+            }
         ))
 
         viewModel.addButtonClicked.observe(viewLifecycleOwner, {
@@ -111,6 +114,13 @@ class TaskTrackerFragment : Fragment() {
                 })
                 tracker.clearSelection()
                 viewModel.onNukeFinished()
+            }
+        })
+
+        viewModel.navigateToSelectedTask.observe(viewLifecycleOwner, {
+            if (it != null) {
+                this.findNavController().navigate(TaskTrackerFragmentDirections.actionShowDetail(it))
+                viewModel.displayTaskFinish()
             }
         })
 
