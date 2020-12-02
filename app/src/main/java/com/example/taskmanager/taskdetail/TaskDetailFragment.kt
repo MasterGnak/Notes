@@ -28,13 +28,8 @@ class TaskDetailFragment : Fragment() {
         setHasOptionsMenu(true)
         val imm = requireNotNull(activity).getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        viewModel.textViewClicked.observe(viewLifecycleOwner, {
+        viewModel.editable.observe(viewLifecycleOwner, {
             activity?.invalidateOptionsMenu()
-            if (it != null) {
-                val view = requireNotNull(activity).findViewById<EditText>(it)
-                view.requestFocus()
-                imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-            }
         })
 
         viewModel.doneButtonClicked.observe(viewLifecycleOwner, {
@@ -55,7 +50,7 @@ class TaskDetailFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_done_task_detail, menu)
+        inflater.inflate(R.menu.menu_task_detail, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -63,18 +58,26 @@ class TaskDetailFragment : Fragment() {
             viewModel.onDoneButtonClicked()
             return true
         }
+        if (item.itemId == R.id.edit) {
+            viewModel.enableEditing()
+        }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         val doneButton = menu.findItem(R.id.edit_done)
-        if (viewModel.textViewClicked.value == null) {
-            doneButton.isEnabled = false
-            doneButton.isVisible = false
-        } else {
+        val editButton = menu.findItem(R.id.edit)
+        if (viewModel.editable.value!!) {
             doneButton.isEnabled = true
             doneButton.isVisible = true
+            editButton.isEnabled = false
+            editButton.isVisible = false
+        } else {
+            doneButton.isEnabled = false
+            doneButton.isVisible = false
+            editButton.isEnabled = true
+            editButton.isVisible = true
         }
     }
 }

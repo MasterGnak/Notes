@@ -22,7 +22,7 @@
                 android:singleLine="true"
                 android:background="@drawable/item_background"
                 style="@style/itemTextStyle"
-                app:visible="@{viewModel.textViewClicked}"
+                app:visible="@{viewModel.editable}"
                 />
         <TextView
                 android:layout_width="0dp"
@@ -35,8 +35,7 @@
                 android:singleLine="true"
                 android:background="@drawable/item_background"
                 style="@style/itemTextStyle"
-                app:visible="@{viewModel.textViewClicked}"
-                android:onClick="@{() -> viewModel.enableEditing(editTextTaskName.getId())}"
+                app:visible="@{viewModel.editable}"
                 tools:text="Name"/>
         <EditText
                 android:layout_width="0dp"
@@ -49,7 +48,7 @@
                 app:layout_constraintDimensionRatio="w,3:1"
                 android:background="@drawable/item_background"
                 style="@style/itemTextStyle"
-                app:visible="@{viewModel.textViewClicked}"
+                app:visible="@{viewModel.editable}"
         />
         <TextView
                 android:layout_width="0dp"
@@ -61,8 +60,7 @@
                 app:layout_constraintDimensionRatio="w,3:1"
                 android:background="@drawable/item_background"
                 style="@style/itemTextStyle"
-                app:visible="@{viewModel.textViewClicked}"
-                android:onClick="@{() -> viewModel.enableEditing(editTextDeadline.getId())}"
+                app:visible="@{viewModel.editable}"
                 tools:text="Date"/>
         <ScrollView
                 android:layout_width="0dp"
@@ -72,11 +70,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="@drawable/item_background"
-                android:onClick="@{() -> viewModel.enableEditing(editTextTaskDetail.getId())}"
-                app:visible="@{viewModel.textViewClicked == null}">
+                app:visible="@{!viewModel.editable}">
             <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/textViewTaskDetail"
                     android:textAlignment="viewStart"
                     style="@style/itemTextStyle"
@@ -93,10 +90,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="@drawable/item_background"
-                app:visible="@{viewModel.textViewClicked != null}">
+                app:visible="@{viewModel.editable}">
             <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:inputType="textMultiLine"
                     android:id="@+id/editTextTaskDetail"
                     android:textAlignment="viewStart"

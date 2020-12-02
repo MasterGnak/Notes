@@ -18,20 +18,20 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<Task>?) {
 }
 
 @BindingAdapter("visible")
-fun visibilityTextCheck(view: TextView, visible: Int?) {
-    if (visible == null) view.visibility = View.VISIBLE
+fun visibilityTextCheck(view: TextView, editable: Boolean) {
+    if (!editable) view.visibility = View.VISIBLE
     else view.visibility = View.GONE
 }
 
 @BindingAdapter("visible")
-fun visibilityEditCheck(view: EditText, visible: Int?) {
-    if (visible != null) view.visibility = View.VISIBLE
+fun visibilityEditCheck(view: EditText, editable: Boolean) {
+    if (editable) view.visibility = View.VISIBLE
     else view.visibility = View.GONE
 }
 
 @BindingAdapter("visible")
-fun visibilityEditCheck(view: ScrollView, visible: Boolean) {
-    if (visible) view.visibility = View.VISIBLE
+fun visibilityEditCheck(view: ScrollView, editable: Boolean) {
+    if (editable) view.visibility = View.VISIBLE
     else view.visibility = View.GONE
 }
 

@@ -1,7 +1,6 @@
 package com.example.taskmanager.taskdetail
 
 import android.app.Application
-import android.widget.EditText
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,9 +20,9 @@ class TaskDetailViewModel(task: Task, application: Application) : ViewModel() {
     val doneButtonClicked: LiveData<Boolean>
         get() = _doneButtonClicked
 
-    private val _textViewClicked = MutableLiveData<Int?>()
-    val textViewClicked: LiveData<Int?>
-        get() = _textViewClicked
+    private val _editable = MutableLiveData<Boolean>()
+    val editable: LiveData<Boolean>
+        get() = _editable
 
 //    private val _textViewVisible = MutableLiveData<Boolean>()
 //    val textViewVisible: LiveData<Boolean>
@@ -39,15 +38,15 @@ class TaskDetailViewModel(task: Task, application: Application) : ViewModel() {
     }
 
     init{
-        _textViewClicked.value = null
+        _editable.value = false
     }
 
-    fun enableEditing(viewId: Int?) {
-        _textViewClicked.value = viewId
+    fun enableEditing() {
+        _editable.value = true
     }
 
     fun disableEditing() {
-        _textViewClicked.value = null
+        _editable.value = false
     }
 
 }
