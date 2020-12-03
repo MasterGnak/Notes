@@ -21,7 +21,7 @@ data class Task(
     var deadline: String = "New year",
 
     @ColumnInfo
-    var detail: String = "Description",
+    var detail: String = "",
 
     @ColumnInfo
     var priority: Int = 1,

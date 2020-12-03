@@ -68,7 +68,7 @@ class TaskTrackerFragment : Fragment() {
 
             //onClick
             {
-                viewModel.displayTaskDetails(it)
+                if (!tracker.hasSelection()) viewModel.displayTaskDetails(it)
             }
         ))
 
@@ -77,7 +77,7 @@ class TaskTrackerFragment : Fragment() {
                 // Set up Alert Dialog
                 val nameInput = inflater.inflate(R.layout.task_name_edit_text, null, false)
                 val deadlineInput = EditText(context)
-                deadlineInput.inputType = InputType.TYPE_CLASS_TEXT
+                deadlineInput.inputType = InputType.TYPE_CLASS_DATETIME
                 val dialogMain = AlertDialog.Builder(this.context!!).
                     setTitle("Enter task name").
                     setView(nameInput).

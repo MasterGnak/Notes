@@ -1,12 +1,16 @@
 package com.example.taskmanager.taskdetail
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.example.taskmanager.database.Task
+import com.example.taskmanager.database.TaskDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class TaskDetailViewModel(task: Task, application: Application) : ViewModel() {
+class TaskDetailViewModel(task: Task, application: Application) : AndroidViewModel(application) {
+
+    val database = TaskDatabase.getInstance(application).taskDatabaseDao
 
     private val _selectedTask = MutableLiveData<Task>()
     val selectedTask: LiveData<Task>
@@ -23,11 +27,6 @@ class TaskDetailViewModel(task: Task, application: Application) : ViewModel() {
     private val _editable = MutableLiveData<Boolean>()
     val editable: LiveData<Boolean>
         get() = _editable
-
-//    private val _textViewVisible = MutableLiveData<Boolean>()
-//    val textViewVisible: LiveData<Boolean>
-//        get() = _textViewVisible
-
 
     fun onDoneButtonClicked() {
         _doneButtonClicked.value = true
@@ -47,6 +46,18 @@ class TaskDetailViewModel(task: Task, application: Application) : ViewModel() {
 
     fun disableEditing() {
         _editable.value = false
+    }
+
+    fun updateTask(task: Task) {
+        viewModelScope.launch {
+            update(task)
+        }
+    }
+
+    private suspend fun update(task: Task) {
+        withContext(Dispatchers.IO) {
+            database.update(task)
+        }
     }
 
 }

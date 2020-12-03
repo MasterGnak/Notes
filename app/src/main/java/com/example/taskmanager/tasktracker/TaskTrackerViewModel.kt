@@ -68,18 +68,6 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
         }
     }
 
-    fun updateTask(task: Task) {
-        viewModelScope.launch {
-            update(task)
-        }
-    }
-
-    private suspend fun update(task: Task) {
-        withContext(Dispatchers.IO) {
-            database.update(task)
-        }
-    }
-
     private val _nukeClicked = MutableLiveData<Boolean>()
     val nukeClicked: LiveData<Boolean>
         get() = _nukeClicked

@@ -20,10 +20,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/editTextDeadline"
                 android:singleLine="true"
-                android:background="@drawable/item_background"
                 style="@style/itemTextStyle"
                 app:visible="@{viewModel.editable}"
-                />
+        />
         <TextView
                 android:layout_width="0dp"
                 android:layout_height="@dimen/item_height"
@@ -31,9 +30,8 @@
                 android:text="@{viewModel.selectedTask.name}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/editTextDeadline"
+                app:layout_constraintEnd_toStartOf="@+id/textViewDeadline"
                 android:singleLine="true"
-                android:background="@drawable/item_background"
                 style="@style/itemTextStyle"
                 app:visible="@{viewModel.editable}"
                 tools:text="Name"/>
@@ -46,7 +44,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintDimensionRatio="w,3:1"
-                android:background="@drawable/item_background"
                 style="@style/itemTextStyle"
                 app:visible="@{viewModel.editable}"
         />
@@ -58,7 +55,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintDimensionRatio="w,3:1"
-                android:background="@drawable/item_background"
                 style="@style/itemTextStyle"
                 app:visible="@{viewModel.editable}"
                 tools:text="Date"/>
@@ -73,7 +69,7 @@
                 app:visible="@{!viewModel.editable}">
             <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:id="@+id/textViewTaskDetail"
                     android:textAlignment="viewStart"
                     style="@style/itemTextStyle"
@@ -93,7 +89,7 @@
                 app:visible="@{viewModel.editable}">
             <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:id="@+id/editTextTaskDetail"
                     android:textAlignment="viewStart"
