@@ -40,24 +40,26 @@
                 android:layout_height="@dimen/item_height"
                 android:inputType="date"
                 android:id="@+id/editTextDeadline"
-                android:text="@{viewModel.selectedTask.deadline}"
+                app:date="@{viewModel.selectedTask.deadline}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintDimensionRatio="w,3:1"
+                android:singleLine="true"
                 style="@style/itemTextStyle"
                 app:visible="@{viewModel.editable}"
-        />
+                tools:text="EditText"/>
         <TextView
                 android:layout_width="0dp"
                 android:layout_height="@dimen/item_height"
                 android:id="@+id/textViewDeadline"
-                android:text="@{viewModel.selectedTask.deadline}"
+                app:date="@{viewModel.selectedTask.deadline}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintDimensionRatio="w,3:1"
+                android:singleLine="true"
                 style="@style/itemTextStyle"
                 app:visible="@{viewModel.editable}"
-                tools:text="Date"/>
+                tools:text="Date" tools:visibility="visible"/>
         <ScrollView
                 android:layout_width="0dp"
                 android:layout_height="0dp"

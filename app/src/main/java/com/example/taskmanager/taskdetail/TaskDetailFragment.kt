@@ -5,6 +5,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.taskmanager.R
@@ -34,7 +35,12 @@ class TaskDetailFragment : Fragment() {
         viewModel.doneButtonClicked.observe(viewLifecycleOwner, {
             if (it) {
                 task.name = binding.editTextTaskName.text.toString()
-                task.deadline = binding.editTextDeadline.text.toString()
+                val deadline = binding.editTextDeadline.text.toString()
+                try {
+                    task.deadline = viewModel.parseDeadline(deadline)
+                } catch(e: Exception) {
+                    Toast.makeText(this.context, e.message, Toast.LENGTH_SHORT).show()
+                }
                 task.detail = binding.editTextTaskDetail.text.toString()
                 viewModel.updateTask(task)
                 viewModel.onDoneButtonFinish()

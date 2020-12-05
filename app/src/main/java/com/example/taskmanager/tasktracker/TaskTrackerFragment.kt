@@ -86,19 +86,13 @@ class TaskTrackerFragment : Fragment() {
                     create()
                 dialogMain.setOnShowListener{dialog ->
                         dialogMain.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener{
-                            val taskName = nameInput.task_name_edit_text.text.toString()
+                            viewModel.addTask(
+                                Task(
+                                    name = nameInput.task_name_edit_text.text.toString(),
+                                )
+                            )
                             (nameInput.parent as ViewGroup).removeView(nameInput)
                             dialog.cancel()
-                            AlertDialog.Builder(this.context!!).setTitle("Enter deadline").setView(deadlineInput)
-                                .setPositiveButton("OK") { dialog, _ ->
-                                    dialog.cancel()
-                                    viewModel.addTask(
-                                        Task(
-                                            name = taskName,
-                                            deadline = deadlineInput.text.toString()
-                                        )
-                                    )
-                                }.setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }.create().show()
                         }
                 }
                 dialogMain.show()

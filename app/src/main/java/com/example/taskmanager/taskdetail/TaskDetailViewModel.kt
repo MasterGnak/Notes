@@ -2,11 +2,16 @@ package com.example.taskmanager.taskdetail
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.example.taskmanager.calendar
 import com.example.taskmanager.database.Task
 import com.example.taskmanager.database.TaskDatabase
+import com.example.taskmanager.dateFormat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
+import java.util.*
+
 
 class TaskDetailViewModel(task: Task, application: Application) : AndroidViewModel(application) {
 
@@ -60,4 +65,11 @@ class TaskDetailViewModel(task: Task, application: Application) : AndroidViewMod
         }
     }
 
+    fun parseDeadline(deadline: String): String {
+        val date = dateFormat.parse(deadline)
+        return if (date.before(calendar.time)) {
+            throw Exception("Invalid date")
+        }
+        else dateFormat.format(date)
+    }
 }
