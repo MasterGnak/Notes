@@ -20,6 +20,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/editTextDeadline"
                 android:singleLine="true"
+                android:background="@android:color/transparent"
                 style="@style/itemTextStyle"
                 app:visible="@{viewModel.editable}"
         />
@@ -45,6 +46,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintDimensionRatio="w,3:1"
                 android:singleLine="true"
+                android:background="@android:color/transparent"
                 style="@style/itemTextStyle"
                 app:visible="@{viewModel.editable}"
                 tools:text="EditText"/>
@@ -67,7 +69,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:background="@drawable/item_background"
                 app:visible="@{!viewModel.editable}">
             <TextView
                     android:layout_width="match_parent"
@@ -77,7 +78,7 @@
                     style="@style/itemTextStyle"
                     android:text="@{viewModel.selectedTask.detail}"
                     android:lineSpacingMultiplier="1.2"
-                    android:background="@color/colorDefault"
+                    android:background="@android:color/transparent"
                     tools:text="@string/kira"/>
         </ScrollView>
         <ScrollView
@@ -87,7 +88,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:background="@drawable/item_background"
                 app:visible="@{viewModel.editable}">
             <EditText
                     android:layout_width="match_parent"
@@ -95,10 +95,10 @@
                     android:inputType="textMultiLine"
                     android:id="@+id/editTextTaskDetail"
                     android:textAlignment="viewStart"
+                    android:background="@android:color/transparent"
                     style="@style/itemTextStyle"
                     android:text="@{viewModel.selectedTask.detail}"
                     android:lineSpacingMultiplier="1.2"
-                    android:background="@color/colorDefault"
             />
         </ScrollView>
         <androidx.constraintlayout.widget.Guideline

@@ -6,7 +6,8 @@
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/business_cat">
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/task_list"
                 android:layout_width="0dp"

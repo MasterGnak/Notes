@@ -9,7 +9,6 @@
     <style name="itemTextStyle">
         <item name="android:fontFamily">@font/roboto_thin</item>
         <item name="android:textSize">@dimen/text_size</item>
-        <item name="android:background">@drawable/item_background</item>
         <item name="android:textColor">@android:color/primary_text_light</item>
         <item name="android:paddingStart">@dimen/text_padding</item>
         <item name="android:paddingEnd">@dimen/text_padding</item>
