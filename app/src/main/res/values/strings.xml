@@ -6,6 +6,25 @@
     <string name="nuke">NUKE</string>
     <string name="alert_title">Enter task name</string>
     <string name="kira">
-        My name is Yoshikage Kira. I\'m currently 33 years old. Not that you\'d care, but I reside in northeast Morioh\'s villa district. Also, I\'ve yet to marry. In order to make a living, I work for Kame Yu department stores. After a long day\'s work, I return home no later than 8 PM. I don\'t like smoking, but do enjoy the occasional drink. I\'m always in bed by 11 PM, and I make it a point to get no less than eight hours of sleep each night. Before bed, I drink a warm glass of milk. It\'s always coupled with twenty minutes of stretching to decompress from the long work day. Sweet dreams are the usual result of this. I then awake as refreshed and recharged as a newborn child, ready to take on the day\'s challenges. And after my last checkup, I was given a clean bill of health. For as long as I can remember, I\'ve done everything in my power to live a productive life that allows me to pursue a lasting inner peace. This may be a foreign concept, but I choose not to concern myself with winning or losing, life\'s troubles, or enemies who bring sleepless nights. That is how I cope with this backwards life we find ourselves living. It\'s what brings me happiness in a world fraught with hardship and misery. Of course, if I were ever to engage in combat, I would win the battle without question.\n
+        My name is Yoshikage Kira. I\'m currently 33 years old. Not that you\'d care, but I reside in northeast
+        Morioh\'s villa district. Also, I\'ve yet to marry. In order to make a living, I work for Kame Yu department
+        stores. After a long day\'s work, I return home no later than 8 PM. I don\'t like smoking, but do enjoy the
+        occasional drink. I\'m always in bed by 11 PM, and I make it a point to get no less than eight hours of sleep
+        each night. Before bed, I drink a warm glass of milk. It\'s always coupled with twenty minutes of stretching to
+        decompress from the long work day. Sweet dreams are the usual result of this. I then awake as refreshed and
+        recharged as a newborn child, ready to take on the day\'s challenges. And after my last checkup, I was given a
+        clean bill of health. For as long as I can remember, I\'ve done everything in my power to live a productive life
+        that allows me to pursue a lasting inner peace. This may be a foreign concept, but I choose not to concern
+        myself with winning or losing, life\'s troubles, or enemies who bring sleepless nights. That is how I cope with
+        this backwards life we find ourselves living. It\'s what brings me happiness in a world fraught with hardship
+        and misery. Of course, if I were ever to engage in combat, I would win the battle without question.\n
     </string>
+    <string name="settings">Settings</string>
+    <string name="deadline_pref_header">Deadlines</string>
+    <string name="red_zone">Red zone</string>
+    <string name="yellow_zone">Yellow zone</string>
+    <string name="red_zone_summary">How many days before the deadline task turns red?</string>
+    <string name="yellow_zone_summary">How many days before the red zone task turns yellow?</string>
+
+
 </resources>

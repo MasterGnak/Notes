@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import com.example.taskmanager.R
@@ -38,7 +39,8 @@ class TaskTrackerFragment : Fragment() {
         binding.lifecycleOwner = this
 
         // Set up a recycler view
-        val adapter = TaskAdapter()
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context)
+        val adapter = TaskAdapter(sharedPreferences)
         binding.taskList.adapter = adapter
         val tracker = SelectionTracker.Builder(
             "taskSelection",
@@ -118,6 +120,13 @@ class TaskTrackerFragment : Fragment() {
             }
         })
 
+        viewModel.settingsButtonClicked.observe(viewLifecycleOwner, {
+            if (it == true) {
+                this.findNavController().navigate(TaskTrackerFragmentDirections.actionShowSettings())
+                viewModel.onSettingsButtonClickedFinish()
+            }
+        })
+
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -125,12 +134,16 @@ class TaskTrackerFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_add_task_tracker, menu)
+        inflater.inflate(R.menu.menu_task_tracker, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.add_task) {
             viewModel.onAddButtonClicked()
+            return true
+        }
+        if (item.itemId == R.id.settings) {
+            viewModel.onSettingsButtonClicked()
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -139,12 +152,17 @@ class TaskTrackerFragment : Fragment() {
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         val addButton = menu.findItem(R.id.add_task)
+        val settingsButton = menu.findItem(R.id.settings)
         if (viewModel.selectionEnabled.value!!) {
             addButton.isEnabled = false
             addButton.isVisible = false
+            settingsButton.isEnabled = false
+            settingsButton.isVisible = false
         } else {
             addButton.isEnabled = true
             addButton.isVisible = true
+            settingsButton.isEnabled = true
+            settingsButton.isVisible = true
         }
     }
 }

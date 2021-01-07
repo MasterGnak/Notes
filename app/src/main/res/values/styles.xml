@@ -13,6 +13,7 @@
         <item name="android:paddingStart">@dimen/text_padding</item>
         <item name="android:paddingEnd">@dimen/text_padding</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingBottom">@dimen/bottom_padding</item>
     </style>
 
 </resources>

@@ -8,7 +8,7 @@
             android:layout_height="@dimen/item_height"
             android:orientation="horizontal"
             android:layout_margin="@dimen/item_margin"
-            android:background="@drawable/item_background_round">
+            android:background="@drawable/item_background_round_white">
 
         <TextView
                 android:id="@+id/task_name"

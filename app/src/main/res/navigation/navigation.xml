@@ -8,6 +8,8 @@
               android:label="TaskTrackerFragment">
         <action android:id="@+id/action_showDetail"
                 app:destination="@id/taskDetailFragment"/>
+        <action android:id="@+id/action_showSettings"
+                app:destination="@id/settingsFragment"/>
     </fragment>
 
 
@@ -18,5 +20,9 @@
                   app:argType="com.example.taskmanager.database.Task"/>
     </fragment>
 
+    <fragment android:id="@+id/settingsFragment"
+              android:name="com.example.taskmanager.SettingsFragment"
+              android:label="SettingsFragment">
+    </fragment>
 
 </navigation>

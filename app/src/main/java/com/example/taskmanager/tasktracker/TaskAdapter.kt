@@ -1,7 +1,7 @@
 package com.example.taskmanager.tasktracker
 
 
-import android.util.Log
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
@@ -11,11 +11,22 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.taskmanager.R
+import com.example.taskmanager.checkDaysRemaining
 import com.example.taskmanager.database.Task
 import com.example.taskmanager.databinding.ListItemTaskBinding
 
 
-class TaskAdapter() : ListAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallback) {
+class TaskAdapter(prefs: SharedPreferences) : ListAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallback) {
+
+    private val redZone = prefs.getString("red","2")!!.toLong()
+    private val yellowZone = prefs.getString("yellow", "2")!!.toLong()
+
+    enum class Colors(val rgb: Int) {
+        RED(0xFF0000),
+        YELLOW(0xFFFF45),
+        WHITE(0xFFFFFF)
+    }
 
     private lateinit var clickListener: ClickListener
 
@@ -42,10 +53,17 @@ class TaskAdapter() : ListAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallback
         holder.bind(task, selectionTracker!!.isSelected(task.taskId))
         holder.itemView.setOnLongClickListener{clickListener.onLongClick(task)}
         holder.itemView.setOnClickListener{clickListener.onClick(task)}
+        if (task.deadline.isNotBlank()) {
+            when (checkDaysRemaining(task.deadline)) {
+                in -10000L..redZone -> holder.itemView.setBackgroundResource(R.drawable.item_background_round_red)
+                in (redZone+1L)..(redZone+1L+yellowZone) -> holder.itemView.setBackgroundResource(R.drawable.item_background_round_yellow)
+                else -> holder.itemView.setBackgroundResource(R.drawable.item_background_round_white)
+            }
+        }
     }
 
     class ViewHolder private constructor(private val binding: ListItemTaskBinding): RecyclerView.ViewHolder(binding.root) {
-        var details: Details = Details()
+        private var details: Details = Details()
 
         fun bind(task: Task, isActivated: Boolean) {
             binding.task = task
@@ -90,7 +108,7 @@ class TaskAdapter() : ListAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallback
             return pos
         }
 
-        override fun getSelectionKey(): Long? {
+        override fun getSelectionKey(): Long {
             return key
         }
 

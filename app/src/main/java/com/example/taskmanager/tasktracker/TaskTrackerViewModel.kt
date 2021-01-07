@@ -28,6 +28,10 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
     val navigateToSelectedTask: LiveData<Task?>
         get() = _navigateToSelectedTask
 
+    private val _settingsButtonClicked = MutableLiveData<Boolean>()
+    val settingsButtonClicked: LiveData<Boolean>
+        get() = _settingsButtonClicked
+
     init{
         _selectionEnabled.value = false
     }
@@ -38,6 +42,14 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
 
     fun onAddButtonClickedFinish() {
         _addButtonClicked.value = false
+    }
+
+    fun onSettingsButtonClicked() {
+        _settingsButtonClicked.value = true
+    }
+
+    fun onSettingsButtonClickedFinish() {
+        _settingsButtonClicked.value = false
     }
 
     fun enableSelection() {
