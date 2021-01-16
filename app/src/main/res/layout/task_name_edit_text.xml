@@ -3,5 +3,5 @@
           android:id="@+id/task_name_edit_text"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
-          android:padding="8dp"
+          android:background="@drawable/item_background_unselected_round"
           android:inputType="text"/>

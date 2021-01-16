@@ -2,14 +2,20 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-    <style name="itemTextStyle">
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorPrimaryVariant">@color/primaryLightColor</item>
+        <item name="colorOnPrimary">@color/primaryTextColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
+        <item name="colorOnSecondary">@color/secondaryTextColor</item>
         <item name="android:fontFamily">@font/roboto_thin</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <style name="itemTextStyle">
         <item name="android:textSize">@dimen/text_size</item>
-        <item name="android:textColor">@android:color/primary_text_light</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
         <item name="android:paddingStart">@dimen/small</item>
         <item name="android:paddingEnd">@dimen/small</item>
         <item name="android:gravity">center_vertical</item>
