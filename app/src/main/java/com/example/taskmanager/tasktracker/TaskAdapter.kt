@@ -22,12 +22,6 @@ class TaskAdapter(prefs: SharedPreferences) : ListAdapter<Task, TaskAdapter.View
     private val redZone = prefs.getString("red","2")!!.toLong()
     private val yellowZone = prefs.getString("yellow", "2")!!.toLong()
 
-    enum class Colors(val rgb: Int) {
-        RED(0xFF0000),
-        YELLOW(0xFFFF45),
-        WHITE(0xFFFFFF)
-    }
-
     private lateinit var clickListener: ClickListener
 
     fun setClickListener(clickL: ClickListener) {

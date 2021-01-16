@@ -8,6 +8,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskmanager.database.Task
 import com.example.taskmanager.tasktracker.TaskAdapter
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -64,7 +65,7 @@ fun setDaysRemaining(view: TextView, date: String) {
     } else {
         val diffInMillis = dateFormat.parse(date).time - calendar.time.time
         val diff = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS)
-        if (diff >= 0) view.text = "$diff дней"
+        if (diff >= 0) view.text = "$diff д"
         else view.text = "Просрочено"
     }
 }
@@ -74,5 +75,11 @@ fun checkDaysRemaining(date: String): Long {
     return TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS)
 }
 
-
+fun parseDeadline(deadline: String): String {
+    val date = dateFormat.parse(deadline)
+    return if (date.before(calendar.time)) {
+        throw Exception("Invalid date")
+    }
+    else dateFormat.format(date)
+}
 

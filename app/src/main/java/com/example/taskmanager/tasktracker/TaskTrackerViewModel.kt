@@ -1,11 +1,9 @@
 package com.example.taskmanager.tasktracker
 
 import android.app.Application
+import android.content.SharedPreferences
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.taskmanager.database.Task
 import com.example.taskmanager.database.TaskDatabaseDao
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +12,11 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Application): AndroidViewModel(application) {
-    val tasks = database.getAllTasks()
+
+    private val sortedTasks = database.getAllTasksDeadlineSorted()
+    private val unsortedTasks = database.getAllTasks()
+    val tasks = MediatorLiveData<List<Task>>()
+    private var currentPrefs = "0"
 
     private val _addButtonClicked = MutableLiveData<Boolean>()
     val addButtonClicked: LiveData<Boolean>
@@ -34,6 +36,7 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
 
     init{
         _selectionEnabled.value = false
+        tasks.addSource(unsortedTasks){tasks.value = it}
     }
 
     fun onAddButtonClicked() {
@@ -77,7 +80,6 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
     private suspend fun insert(task: Task) {
         withContext(Dispatchers.IO){
             database.insert(task)
-            Log.i("viewModel", "inserted")
         }
     }
 
@@ -119,5 +121,18 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
         return task
     }
 
-
+    fun updatePrefs(prefs: SharedPreferences) {
+        val newPrefs = prefs.getString("sort", "0")
+        if (newPrefs != currentPrefs) {
+            if (newPrefs == "0") {
+                tasks.removeSource(sortedTasks)
+                tasks.addSource(unsortedTasks) {tasks.value = it}
+            }
+            else {
+                tasks.removeSource(unsortedTasks)
+                tasks.addSource(sortedTasks) {tasks.value = it}
+            }
+            currentPrefs = newPrefs!!
+        }
+    }
 }

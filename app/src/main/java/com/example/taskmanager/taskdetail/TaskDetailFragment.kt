@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.taskmanager.R
 import com.example.taskmanager.databinding.FragmentTaskDetailBinding
+import com.example.taskmanager.parseDeadline
 
 class TaskDetailFragment : Fragment() {
 
@@ -20,7 +21,7 @@ class TaskDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val application = requireNotNull(activity).application
-        val task = TaskDetailFragmentArgs.fromBundle(arguments!!).selectedTask
+        val task = TaskDetailFragmentArgs.fromBundle(requireArguments()).selectedTask
         viewModel = ViewModelProvider(this, TaskDetailViewModelFactory(task, application)).get(TaskDetailViewModel::class.java)
         val binding = FragmentTaskDetailBinding.inflate(inflater)
         binding.lifecycleOwner = this
@@ -37,7 +38,11 @@ class TaskDetailFragment : Fragment() {
                 task.name = binding.editTextTaskName.text.toString()
                 val deadline = binding.editTextDeadline.text.toString()
                 try {
-                    task.deadline = viewModel.parseDeadline(deadline)
+                    val parsedDeadline = parseDeadline(deadline)
+                    task.deadline = parsedDeadline
+                    task.day = Integer.parseInt(parsedDeadline.substring(0, 2))
+                    task.month = Integer.parseInt(parsedDeadline.substring(3, 5))
+                    task.year = Integer.parseInt(parsedDeadline.substring(6, 8))
                 } catch(e: Exception) {
                     Toast.makeText(this.context, e.message, Toast.LENGTH_SHORT).show()
                 }

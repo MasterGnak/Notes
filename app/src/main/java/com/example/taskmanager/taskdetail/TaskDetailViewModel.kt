@@ -65,11 +65,5 @@ class TaskDetailViewModel(task: Task, application: Application) : AndroidViewMod
         }
     }
 
-    fun parseDeadline(deadline: String): String {
-        val date = dateFormat.parse(deadline)
-        return if (date.before(calendar.time)) {
-            throw Exception("Invalid date")
-        }
-        else dateFormat.format(date)
-    }
+
 }

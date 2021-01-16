@@ -25,4 +25,13 @@
 
     </PreferenceCategory>
 
+    <DropDownPreference
+            app:key="sort"
+            app:title="@string/sort_title"
+            app:entries="@array/sort_entries"
+            app:entryValues="@array/sort_values"
+            app:defaultValue="0"
+            app:summary="В каком порядке должны идти таски?"
+            app:iconSpaceReserved="false"/>
+
 </PreferenceScreen>

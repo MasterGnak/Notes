@@ -10,7 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Task::class], version = 1, exportSchema = false)
+@Database(entities = [Task::class], version = 3, exportSchema = false)
 abstract class TaskDatabase: RoomDatabase() {
 
     abstract val taskDatabaseDao: TaskDatabaseDao
@@ -31,9 +31,7 @@ abstract class TaskDatabase: RoomDatabase() {
                         "task_database"
                     ).fallbackToDestructiveMigration().build()
                     INSTANCE = instance
-                    Log.i("database", "instantiated")
                 }
-                Log.i("database", "returned")
                 return instance
             }
         }

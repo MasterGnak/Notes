@@ -29,17 +29,17 @@ class TaskTrackerFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val binding: FragmentTaskTrackerBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_task_tracker, container, false)
-
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context)
         // Set up viewModel, that contains reference to data
         val application = requireNotNull(this.activity).application
         val dataSource = TaskDatabase.getInstance(application).taskDatabaseDao
         val viewModelFactory = TaskTrackerViewModelFactory(dataSource, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(TaskTrackerViewModel::class.java)
+        viewModel.updatePrefs(sharedPreferences)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
         // Set up a recycler view
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context)
         val adapter = TaskAdapter(sharedPreferences)
         binding.taskList.adapter = adapter
         val tracker = SelectionTracker.Builder(
@@ -90,7 +90,7 @@ class TaskTrackerFragment : Fragment() {
                         dialogMain.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener{
                             viewModel.addTask(
                                 Task(
-                                    name = nameInput.task_name_edit_text.text.toString(),
+                                    name = nameInput.task_name_edit_text.text.toString()
                                 )
                             )
                             (nameInput.parent as ViewGroup).removeView(nameInput)
@@ -165,4 +165,5 @@ class TaskTrackerFragment : Fragment() {
             deleteButton.isVisible = false
         }
     }
+
 }
