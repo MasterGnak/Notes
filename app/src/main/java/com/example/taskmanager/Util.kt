@@ -62,7 +62,7 @@ fun setDaysRemaining(view: TextView, date: String) {
     if (date.isEmpty()) {
         view.text = ""
     } else {
-        val diffInMillis = abs(dateFormat.parse(date).time - calendar.time.time)
+        val diffInMillis = dateFormat.parse(date).time - calendar.time.time
         val diff = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS)
         if (diff >= 0) view.text = "$diff дней"
         else view.text = "Просрочено"

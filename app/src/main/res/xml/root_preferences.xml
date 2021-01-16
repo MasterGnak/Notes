@@ -2,7 +2,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-            app:title="@string/deadline_pref_header">
+            app:title="@string/deadline_pref_header"
+            app:iconSpaceReserved="false">
 
         <ListPreference
                 app:key="red"
@@ -11,7 +12,8 @@
                 app:entryValues="@array/deadline_values"
                 app:defaultValue="2"
                 app:summary="@string/red_zone_summary"
-                />
+                app:iconSpaceReserved="false"/>
+
         <ListPreference
                 app:key="yellow"
                 app:title="@string/yellow_zone"
@@ -19,7 +21,7 @@
                 app:entryValues="@array/deadline_values"
                 app:defaultValue="2"
                 app:summary="@string/yellow_zone_summary"
-        />
+                app:iconSpaceReserved="false"/>
 
     </PreferenceCategory>
 

@@ -20,7 +20,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/editTextDeadline"
                 android:singleLine="true"
-                android:background="@android:color/transparent"
+                android:background="@xml/border_bottom_right"
                 style="@style/itemTextStyle"
                 app:visible="@{viewModel.editable}"
         />
@@ -33,6 +33,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/textViewDeadline"
                 android:singleLine="true"
+                android:background="@xml/border_bottom_right"
                 style="@style/itemTextStyle"
                 app:visible="@{viewModel.editable}"
                 tools:text="Name"/>
@@ -46,7 +47,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintDimensionRatio="w,3:1"
                 android:singleLine="true"
-                android:background="@android:color/transparent"
+                android:background="@xml/border_bottom_left"
                 style="@style/itemTextStyle"
                 app:visible="@{viewModel.editable}"
                 tools:text="EditText"/>
@@ -59,6 +60,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintDimensionRatio="w,3:1"
                 android:singleLine="true"
+                android:background="@xml/border_bottom_left"
                 style="@style/itemTextStyle"
                 app:visible="@{viewModel.editable}"
                 tools:text="Date" tools:visibility="visible"/>
@@ -105,7 +107,7 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" app:layout_constraintGuide_begin="45dp"
-                android:id="@+id/guideline"/>
+                android:id="@+id/guideline" android:background="#000000"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
