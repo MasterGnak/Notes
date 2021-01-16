@@ -2,7 +2,8 @@
 <resources>
     <dimen name="item_height">45dp</dimen>
     <dimen name="text_size">29sp</dimen>
-    <dimen name="text_padding">8dp</dimen>
+    <dimen name="small">8dp</dimen>
     <dimen name="item_margin">10dp</dimen>
-    <dimen name="bottom_padding">4dp</dimen>
+    <dimen name="tiny">4dp</dimen>
+    <dimen name="medium">16dp</dimen>
 </resources>

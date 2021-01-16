@@ -25,6 +25,7 @@
     <string name="yellow_zone">Yellow zone</string>
     <string name="red_zone_summary">How many days before the deadline task turns red?</string>
     <string name="yellow_zone_summary">How many days before the red zone task turns yellow?</string>
+    <string name="Delete">Delete</string>
 
 
 </resources>

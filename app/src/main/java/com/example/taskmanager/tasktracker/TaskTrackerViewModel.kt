@@ -77,6 +77,7 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
     private suspend fun insert(task: Task) {
         withContext(Dispatchers.IO){
             database.insert(task)
+            Log.i("viewModel", "inserted")
         }
     }
 

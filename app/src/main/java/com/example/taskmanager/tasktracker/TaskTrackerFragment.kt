@@ -138,8 +138,8 @@ class TaskTrackerFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.add_task) {
-            viewModel.onAddButtonClicked()
+        if (item.itemId == R.id.delete) {
+            viewModel.onNukeClicked()
             return true
         }
         if (item.itemId == R.id.settings) {
@@ -151,18 +151,18 @@ class TaskTrackerFragment : Fragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val addButton = menu.findItem(R.id.add_task)
         val settingsButton = menu.findItem(R.id.settings)
+        val deleteButton = menu.findItem(R.id.delete)
         if (viewModel.selectionEnabled.value!!) {
-            addButton.isEnabled = false
-            addButton.isVisible = false
             settingsButton.isEnabled = false
             settingsButton.isVisible = false
+            deleteButton.isEnabled = true
+            deleteButton.isVisible = true
         } else {
-            addButton.isEnabled = true
-            addButton.isVisible = true
             settingsButton.isEnabled = true
             settingsButton.isVisible = true
+            deleteButton.isEnabled = false
+            deleteButton.isVisible = false
         }
     }
 }

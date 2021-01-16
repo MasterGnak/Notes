@@ -8,13 +8,11 @@
           android:visible="true"
           android:enabled="true"
           app:showAsAction="ifRoom"/>
-
-    <item android:id="@+id/add_task"
-          android:title="@string/add"
-          android:icon="@drawable/ic_add"
-          android:visible="true"
-          android:enabled="true"
+    <item android:id="@+id/delete"
+          android:title="@string/Delete"
+          android:icon="@drawable/ic_delete"
+          android:visible="false"
+          android:enabled="false"
           app:showAsAction="ifRoom"/>
-
 
 </menu>
