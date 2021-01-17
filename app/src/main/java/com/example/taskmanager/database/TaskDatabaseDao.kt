@@ -27,7 +27,7 @@ interface TaskDatabaseDao {
     @Query("SELECT * FROM task_table ORDER BY taskId DESC")
     fun getAllTasks(): LiveData<List<Task>>
 
-    @Query("SELECT * FROM task_table ORDER BY year ASC, month ASC, day ASC")
+    @Query("SELECT * FROM task_table ORDER BY date ASC")
     fun getAllTasksDeadlineSorted(): LiveData<List<Task>>
 
     @Query("SELECT COUNT(taskId) FROM task_table")

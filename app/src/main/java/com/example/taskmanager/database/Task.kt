@@ -18,24 +18,12 @@ data class Task(
     var name: String = "",
 
     @ColumnInfo
-    var deadline: String = "",
-
-    @ColumnInfo
     var detail: String = "",
 
     @ColumnInfo
     var priority: Int = 1,
 
     @ColumnInfo
-    var day: Int = 0,
-
-    @ColumnInfo
-    var month: Int = 0,
-
-    @ColumnInfo
-    var year: Int = 3000
-
-//    @ColumnInfo
-//    var date: Date? = null
+    var date: Long = 0L
 
 ): Parcelable

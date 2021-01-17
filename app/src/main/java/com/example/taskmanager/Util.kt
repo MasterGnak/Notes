@@ -30,56 +30,35 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<Task>?) {
     adapter.submitList(data)
 }
 
-@BindingAdapter("visible")
-fun visibilityTextCheck(view: TextView, editable: Boolean) {
-    if (!editable) view.visibility = View.VISIBLE
-    else view.visibility = View.GONE
-}
-
-@BindingAdapter("visible")
-fun visibilityEditCheck(view: EditText, editable: Boolean) {
-    if (editable) view.visibility = View.VISIBLE
-    else view.visibility = View.GONE
-}
-
-@BindingAdapter("visible")
-fun visibilityEditCheck(view: ScrollView, editable: Boolean) {
-    if (editable) view.visibility = View.VISIBLE
-    else view.visibility = View.GONE
-}
 
 @BindingAdapter("date")
-fun setDate(view: TextView, date: String) {
-    view.text = date
-}
-
-@BindingAdapter("date")
-fun setDateEditText(view: EditText, date: String) {
-    view.setText(date)
+fun setDateEditText(view: EditText, date: Long) {
+    if (date == 0L) view.setText("")
+    else view.setText(dateFormat.format(Date(date)))
 }
 
 @BindingAdapter("days_left")
-fun setDaysRemaining(view: TextView, date: String) {
-    if (date.isEmpty()) {
+fun setDaysRemaining(view: TextView, date: Long) {
+    if (date == 0L) {
         view.text = ""
     } else {
-        val diffInMillis = dateFormat.parse(date).time - calendar.time.time
+        val diffInMillis = date - calendar.time.time
         val diff = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS)
         if (diff >= 0) view.text = "$diff д"
         else view.text = "Просрочено"
     }
 }
 
-fun checkDaysRemaining(date: String): Long {
-    val diffInMillis = abs(dateFormat.parse(date).time - calendar.time.time)
+fun checkDaysRemaining(date: Long): Long {
+    val diffInMillis = date - calendar.time.time
     return TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS)
 }
 
-fun parseDeadline(deadline: String): String {
+fun parseDeadline(deadline: String): Long {
     val date = dateFormat.parse(deadline)
     return if (date.before(calendar.time)) {
         throw Exception("Invalid date")
     }
-    else dateFormat.format(date)
+    else date.time
 }
 

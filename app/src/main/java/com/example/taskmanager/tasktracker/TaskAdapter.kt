@@ -47,9 +47,9 @@ class TaskAdapter(prefs: SharedPreferences) : ListAdapter<Task, TaskAdapter.View
         holder.bind(task, selectionTracker!!.isSelected(task.taskId))
         holder.itemView.setOnLongClickListener{clickListener.onLongClick(task)}
         holder.itemView.setOnClickListener{clickListener.onClick(task)}
-        if (task.deadline.isNotBlank()) {
-            when (checkDaysRemaining(task.deadline)) {
-                in -10000L..redZone -> holder.itemView.setBackgroundResource(R.drawable.item_background_round_red)
+        if (task.date != Long.MAX_VALUE) {
+            when (checkDaysRemaining(task.date)) {
+                in -1000L..redZone -> holder.itemView.setBackgroundResource(R.drawable.item_background_round_red)
                 in (redZone+1L)..(redZone+1L+yellowZone) -> holder.itemView.setBackgroundResource(R.drawable.item_background_round_yellow)
                 else -> holder.itemView.setBackgroundResource(R.drawable.item_background_round_white)
             }

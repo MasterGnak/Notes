@@ -30,34 +30,9 @@ class TaskDetailFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         setHasOptionsMenu(true)
-        val imm = requireNotNull(activity).getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-
-
-//        viewModel.doneButtonClicked.observe(viewLifecycleOwner, {
-//            if (it) {
-//                updateTask()
-//                viewModel.onDoneButtonFinish()
-//                imm.hideSoftInputFromWindow(binding.layout.windowToken, 0)
-//                binding.invalidateAll()
-//            }
-//
-//        })
 
         return binding.root
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        super.onCreateOptionsMenu(menu, inflater)
-//        inflater.inflate(R.menu.menu_task_detail, menu)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if (item.itemId == R.id.edit_done) {
-//            viewModel.onDoneButtonClicked()
-//            return true
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
 
 
     override fun onStop() {
@@ -70,14 +45,14 @@ class TaskDetailFragment : Fragment() {
         val deadline = binding.editTextDeadline.text.toString()
         try {
             val parsedDeadline = parseDeadline(deadline)
-            task.deadline = parsedDeadline
-            task.day = Integer.parseInt(parsedDeadline.substring(0, 2))
-            task.month = Integer.parseInt(parsedDeadline.substring(3, 5))
-            task.year = Integer.parseInt(parsedDeadline.substring(6, 8))
+            task.date = parsedDeadline
         } catch(e: Exception) {
             Toast.makeText(this.context, "Неправильная дата", Toast.LENGTH_SHORT).show()
         }
         task.detail = binding.editTextTaskDetail.text.toString()
         viewModel.updateTask(task)
+
+        val imm = requireNotNull(activity).getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.layout.windowToken, 0)
     }
 }
