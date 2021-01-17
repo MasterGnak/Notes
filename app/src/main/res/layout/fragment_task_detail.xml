@@ -38,7 +38,9 @@
                 android:singleLine="true"
                 android:background="@xml/border_bottom"
                 style="@style/itemTextStyle"
-                android:hint="@string/date"/>
+                android:hint="@string/date"
+                android:onClick="@{() -> viewModel.onDateClicked()}"
+                android:focusable="false"/>
 
         <ScrollView
                 android:layout_width="0dp"

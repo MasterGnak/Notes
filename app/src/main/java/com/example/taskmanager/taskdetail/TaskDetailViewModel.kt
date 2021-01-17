@@ -25,20 +25,21 @@ class TaskDetailViewModel(task: Task, application: Application) : AndroidViewMod
         _selectedTask.value = task
     }
 
-    private val _doneButtonClicked = MutableLiveData<Boolean>()
-    val doneButtonClicked: LiveData<Boolean>
-        get() = _doneButtonClicked
+    private val _dateClicked = MutableLiveData<Boolean>()
+    val dateClicked: LiveData<Boolean>
+        get() = _dateClicked
 
 
-    fun onDoneButtonClicked() {
-        _doneButtonClicked.value = true
+    fun onDateClicked() {
+        _dateClicked.value = true
     }
 
-    fun onDoneButtonFinish() {
-        _doneButtonClicked.value = false
+    fun onDateClickedFinish() {
+        _dateClicked.value = false
     }
 
     init{
+
     }
 
 
