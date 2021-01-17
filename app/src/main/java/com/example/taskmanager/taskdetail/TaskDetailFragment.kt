@@ -4,19 +4,13 @@ package com.example.taskmanager.taskdetail
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.DatePicker
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.taskmanager.R
 import com.example.taskmanager.calendar
 import com.example.taskmanager.database.Task
 import com.example.taskmanager.databinding.FragmentTaskDetailBinding
-import com.example.taskmanager.parseDeadline
-import kotlinx.android.synthetic.*
 import java.util.*
 
 class TaskDetailFragment : Fragment() {

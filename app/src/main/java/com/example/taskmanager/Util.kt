@@ -45,20 +45,12 @@ fun setDaysRemaining(view: TextView, date: Long) {
         val diffInMillis = date - calendar.time.time
         val diff = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS)
         if (diff >= 0) view.text = "$diff д"
-        else view.text = "Просрочено"
+        else view.text = "RIP"
     }
 }
 
 fun checkDaysRemaining(date: Long): Long {
     val diffInMillis = date - calendar.time.time
     return TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS)
-}
-
-fun parseDeadline(deadline: String): Long {
-    val date = dateFormat.parse(deadline)
-    return if (date.before(calendar.time)) {
-        throw Exception("Invalid date")
-    }
-    else date.time
 }
 
