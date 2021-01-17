@@ -5,7 +5,7 @@
 
     <fragment android:id="@+id/taskTrackerFragment"
               android:name="com.example.taskmanager.tasktracker.TaskTrackerFragment"
-              android:label="TaskTrackerFragment">
+              android:label="@string/main_screen_title">
         <action android:id="@+id/action_showDetail"
                 app:destination="@id/taskDetailFragment"/>
         <action android:id="@+id/action_showSettings"
@@ -15,14 +15,14 @@
 
     <fragment android:id="@+id/taskDetailFragment"
               android:name="com.example.taskmanager.taskdetail.TaskDetailFragment"
-              android:label="TaskDetailFragment">
+    >
         <argument android:name="selectedTask"
                   app:argType="com.example.taskmanager.database.Task"/>
     </fragment>
 
     <fragment android:id="@+id/settingsFragment"
               android:name="com.example.taskmanager.SettingsFragment"
-              android:label="SettingsFragment">
+              android:label="@string/settings_screen_title">
     </fragment>
 
 </navigation>

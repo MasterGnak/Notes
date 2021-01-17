@@ -5,8 +5,4 @@
           android:title="@string/done"
           android:icon="@drawable/ic_done"
           app:showAsAction="ifRoom"/>
-    <item android:id="@+id/edit"
-          android:title="@string/edit"
-          android:icon="@drawable/ic_edit"
-          app:showAsAction="ifRoom"/>
 </menu>

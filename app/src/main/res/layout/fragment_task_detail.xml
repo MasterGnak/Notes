@@ -22,21 +22,22 @@
                 android:singleLine="true"
                 android:background="@xml/border_bottom_right"
                 style="@style/itemTextStyle"
-                app:visible="@{viewModel.editable}"
+                android:hint="@string/name"
         />
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="@dimen/item_height"
-                android:id="@+id/textViewTaskName"
-                android:text="@{viewModel.selectedTask.name}"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textViewDeadline"
-                android:singleLine="true"
-                android:background="@xml/border_bottom_right"
-                style="@style/itemTextStyle"
-                app:visible="@{viewModel.editable}"
-                tools:text="Name"/>
+<!--        app:visible="@{viewModel.editable}"-->
+<!--        <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="@dimen/item_height"-->
+<!--                android:id="@+id/textViewTaskName"-->
+<!--                android:text="@{viewModel.selectedTask.name}"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toStartOf="@+id/textViewDeadline"-->
+<!--                android:singleLine="true"-->
+<!--                android:background="@xml/border_bottom_right"-->
+<!--                style="@style/itemTextStyle"-->
+<!--                app:visible="@{viewModel.editable}"-->
+<!--                tools:text="Name"/>-->
         <EditText
                 android:layout_width="0dp"
                 android:layout_height="@dimen/item_height"
@@ -47,50 +48,50 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintDimensionRatio="w,3:1"
                 android:singleLine="true"
-                android:background="@xml/border_bottom_left"
+                android:background="@xml/border_bottom"
                 style="@style/itemTextStyle"
-                app:visible="@{viewModel.editable}"
-                tools:text="EditText"/>
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="@dimen/item_height"
-                android:id="@+id/textViewDeadline"
-                app:date="@{viewModel.selectedTask.deadline}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintDimensionRatio="w,3:1"
-                android:singleLine="true"
-                android:background="@xml/border_bottom_left"
-                style="@style/itemTextStyle"
-                app:visible="@{viewModel.editable}"
-                tools:text="Date" tools:visibility="visible"/>
+                android:hint="@string/date"/>
+<!--        app:visible="@{viewModel.editable}"-->
+<!--        <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="@dimen/item_height"-->
+<!--                android:id="@+id/textViewDeadline"-->
+<!--                app:date="@{viewModel.selectedTask.deadline}"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintDimensionRatio="w,3:1"-->
+<!--                android:singleLine="true"-->
+<!--                android:background="@xml/border_bottom"-->
+<!--                style="@style/itemTextStyle"-->
+<!--                app:visible="@{viewModel.editable}"-->
+<!--                tools:text="Date" tools:visibility="visible"/>-->
+<!--        <ScrollView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="0dp"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/guideline"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:visible="@{!viewModel.editable}">-->
+<!--            <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:id="@+id/textViewTaskDetail"-->
+<!--                    android:textAlignment="viewStart"-->
+<!--                    style="@style/itemTextStyle"-->
+<!--                    android:text="@{viewModel.selectedTask.detail}"-->
+<!--                    android:lineSpacingMultiplier="1.2"-->
+<!--                    android:background="@android:color/transparent"-->
+<!--                    tools:text="@string/kira"/>-->
+<!--        </ScrollView>-->
+<!--        app:visible="@{viewModel.editable}">-->
         <ScrollView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toBottomOf="@+id/guideline"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:visible="@{!viewModel.editable}">
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textViewTaskDetail"
-                    android:textAlignment="viewStart"
-                    style="@style/itemTextStyle"
-                    android:text="@{viewModel.selectedTask.detail}"
-                    android:lineSpacingMultiplier="1.2"
-                    android:background="@android:color/transparent"
-                    tools:text="@string/kira"/>
-        </ScrollView>
-        <ScrollView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@+id/guideline"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:visible="@{viewModel.editable}">
+                app:layout_constraintEnd_toEndOf="parent">
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -101,6 +102,7 @@
                     style="@style/itemTextStyle"
                     android:text="@{viewModel.selectedTask.detail}"
                     android:lineSpacingMultiplier="1.2"
+                    android:hint="@string/detail"
             />
         </ScrollView>
         <androidx.constraintlayout.widget.Guideline

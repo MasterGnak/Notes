@@ -29,9 +29,6 @@ class TaskDetailViewModel(task: Task, application: Application) : AndroidViewMod
     val doneButtonClicked: LiveData<Boolean>
         get() = _doneButtonClicked
 
-    private val _editable = MutableLiveData<Boolean>()
-    val editable: LiveData<Boolean>
-        get() = _editable
 
     fun onDoneButtonClicked() {
         _doneButtonClicked.value = true
@@ -42,16 +39,8 @@ class TaskDetailViewModel(task: Task, application: Application) : AndroidViewMod
     }
 
     init{
-        _editable.value = false
     }
 
-    fun enableEditing() {
-        _editable.value = true
-    }
-
-    fun disableEditing() {
-        _editable.value = false
-    }
 
     fun updateTask(task: Task) {
         viewModelScope.launch {

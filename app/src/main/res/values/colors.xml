@@ -1,14 +1,15 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <resources>
-  <color name="primaryColor">#f48fb1</color>
-  <color name="primaryLightColor">#ffc1e3</color>
-  <color name="primaryDarkColor">#bf5f82</color>
-  <color name="secondaryColor">#ffcdd2</color>
-  <color name="secondaryLightColor">#ffffff</color>
-  <color name="secondaryDarkColor">#cb9ca1</color>
+  <color name="primaryColor">#84ffff</color>
+  <color name="primaryLightColor">#baffff</color>
+  <color name="primaryDarkColor">#4bcbcc</color>
+  <color name="secondaryColor">#f8bbd0</color>
+  <color name="secondaryLightColor">#ffeeff</color>
+  <color name="secondaryDarkColor">#c48b9f</color>
   <color name="primaryTextColor">#000000</color>
   <color name="secondaryTextColor">#000000</color>
-  <color name="selected">#a2ffde</color>
-  <color name="yellow">#ffe344</color>
-  <color name="red">#ff793a</color>
+  <color name="selected">@android:color/holo_green_light</color>
+  <color name="yellow">@android:color/holo_orange_light</color>
+  <color name="red">@android:color/holo_red_light</color>
+  <color name="stroke">#000000</color>
 </resources>

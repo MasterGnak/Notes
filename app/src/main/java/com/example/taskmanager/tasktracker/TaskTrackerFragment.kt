@@ -76,28 +76,9 @@ class TaskTrackerFragment : Fragment() {
 
         viewModel.addButtonClicked.observe(viewLifecycleOwner, {
             if (it == true) {
-                // Set up Alert Dialog
-                val nameInput = inflater.inflate(R.layout.task_name_edit_text, null, false)
-                val deadlineInput = EditText(context)
-                deadlineInput.inputType = InputType.TYPE_CLASS_DATETIME
-                val dialogMain = AlertDialog.Builder(this.context!!).
-                    setTitle("Enter task name").
-                    setView(nameInput).
-                    setPositiveButton("OK", null).
-                    setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }.
-                    create()
-                dialogMain.setOnShowListener{dialog ->
-                        dialogMain.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener{
-                            viewModel.addTask(
-                                Task(
-                                    name = nameInput.task_name_edit_text.text.toString()
-                                )
-                            )
-                            (nameInput.parent as ViewGroup).removeView(nameInput)
-                            dialog.cancel()
-                        }
-                }
-                dialogMain.show()
+                val newTask = Task()
+                viewModel.addTask(newTask)
+                viewModel.displayTaskDetails(newTask)
                 viewModel.onAddButtonClickedFinish()
             }
         })

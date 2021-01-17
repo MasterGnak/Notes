@@ -4,7 +4,6 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.taskmanager.setDaysRemaining
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -16,7 +15,7 @@ data class Task(
     var taskId: Long = 0L,
 
     @ColumnInfo
-    var name: String = "Empty task",
+    var name: String = "",
 
     @ColumnInfo
     var deadline: String = "",
@@ -35,5 +34,8 @@ data class Task(
 
     @ColumnInfo
     var year: Int = 3000
+
+//    @ColumnInfo
+//    var date: Date? = null
 
 ): Parcelable

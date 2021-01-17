@@ -24,8 +24,13 @@
     <string name="yellow_zone">Желтая зона</string>
     <string name="red_zone_summary">За сколько дней до дедлайна таска должна подсвечиваться красным?</string>
     <string name="yellow_zone_summary">За сколько дней до подсвечивания красным таска должна подсвечиваться желтым?</string>
-    <string name="Delete">Delete</string>
+    <string name="delete">Delete</string>
     <string name="sort_title">Сортировка</string>
+    <string name="date">Дата</string>
+    <string name="detail">Детали</string>
+    <string name="name">Название</string>
+    <string name="main_screen_title">Заметки</string>
+    <string name="settings_screen_title">Настройки</string>
 
 
 </resources>
