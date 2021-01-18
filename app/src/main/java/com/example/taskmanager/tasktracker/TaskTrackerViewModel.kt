@@ -118,22 +118,6 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
         return task
     }
 
-    fun getLastTask(): Task {
-        var task: Task
-        runBlocking {
-            task = getLast()
-        }
-        return task
-    }
-
-    private suspend fun getLast(): Task {
-        var task: Task
-        withContext(Dispatchers.IO) {
-            task = database.getLastTask()
-        }
-        return task
-    }
-
     fun updatePrefs(prefs: SharedPreferences) {
         val newPrefs = prefs.getString("sort", "0")
         if (newPrefs != currentPrefs) {

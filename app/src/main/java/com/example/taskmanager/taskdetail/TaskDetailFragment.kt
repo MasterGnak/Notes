@@ -54,12 +54,10 @@ class TaskDetailFragment : Fragment() {
         val name = binding.editTextTaskName.text.toString()
         val detail = binding.editTextTaskDetail.text.toString()
         val date = binding.editTextDeadline.text.toString()
-        if (name.isEmpty() && detail.isEmpty() && date.isEmpty()) {
-            viewModel.deleteTask(task)
-        } else {
+        if (name.isNotEmpty() || detail.isNotEmpty() || date.isNotEmpty()) {
             task.name = name
             task.detail = detail
-            viewModel.updateTask(task)
+            viewModel.addTask(task)
         }
 
         val imm = requireNotNull(activity).getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -74,7 +72,6 @@ class TaskDetailFragment : Fragment() {
                 setDate.set(Calendar.MONTH, month)
                 setDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 task.date = setDate.time.time
-                viewModel.updateTask(task)
                 binding.invalidateAll()
             },
             calendar.get(Calendar.YEAR),

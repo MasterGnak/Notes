@@ -36,30 +36,18 @@ class TaskDetailViewModel(task: Task, application: Application) : AndroidViewMod
 
     }
 
-
-    fun updateTask(task: Task) {
+    fun addTask(task: Task) {
         viewModelScope.launch {
-            update(task)
+            insert(task)
         }
     }
 
-    private suspend fun update(task: Task) {
-        withContext(Dispatchers.IO) {
-            database.update(task)
+    private suspend fun insert(task: Task) {
+        withContext(Dispatchers.IO){
+            database.insert(task)
         }
     }
 
-    fun deleteTask(task: Task) {
-        runBlocking {
-            delete(task)
-        }
-    }
-
-    private suspend fun delete(task: Task) {
-        withContext(Dispatchers.IO) {
-            database.deleteTask(task)
-        }
-    }
 
 
 }

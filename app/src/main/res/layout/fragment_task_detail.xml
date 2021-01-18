@@ -42,26 +42,25 @@
                 android:onClick="@{() -> viewModel.onDateClicked()}"
                 android:focusable="false"/>
 
-        <ScrollView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+
+        <EditText
                 app:layout_constraintTop_toBottomOf="@+id/guideline"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-            <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:id="@+id/editTextTaskDetail"
-                    android:textAlignment="viewStart"
-                    android:background="@android:color/transparent"
-                    style="@style/itemTextStyle"
-                    android:text="@{viewModel.selectedTask.detail}"
-                    android:lineSpacingMultiplier="1.2"
-                    android:hint="@string/detail"
-            />
-        </ScrollView>
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:inputType="textMultiLine"
+                android:id="@+id/editTextTaskDetail"
+                android:textAlignment="viewStart"
+                android:gravity="start"
+                android:background="@android:color/transparent"
+                style="@style/itemTextStyle"
+                android:text="@{viewModel.selectedTask.detail}"
+                android:lineSpacingMultiplier="1.2"
+                android:hint="@string/detail"
+        />
+
         <androidx.constraintlayout.widget.Guideline
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
