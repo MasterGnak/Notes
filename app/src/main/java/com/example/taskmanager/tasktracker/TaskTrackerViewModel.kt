@@ -6,10 +6,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.taskmanager.database.Task
 import com.example.taskmanager.database.TaskDatabaseDao
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Application): AndroidViewModel(application) {
 
@@ -106,7 +103,7 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
     }
 
     fun getTask(key: Long): Task? {
-        var task: Task? = null
+        var task: Task?
         runBlocking{
             task = get(key)
         }
@@ -117,6 +114,22 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
         var task: Task?
         withContext(Dispatchers.IO) {
             task =  database.getTask(key)
+        }
+        return task
+    }
+
+    fun getLastTask(): Task {
+        var task: Task
+        runBlocking {
+            task = getLast()
+        }
+        return task
+    }
+
+    private suspend fun getLast(): Task {
+        var task: Task
+        withContext(Dispatchers.IO) {
+            task = database.getLastTask()
         }
         return task
     }

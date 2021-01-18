@@ -4,6 +4,7 @@ package com.example.taskmanager.taskdetail
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
@@ -46,10 +47,20 @@ class TaskDetailFragment : Fragment() {
         updateTask()
     }
 
+
+
+
     private fun updateTask() {
-        task.name = binding.editTextTaskName.text.toString()
-        task.detail = binding.editTextTaskDetail.text.toString()
-        viewModel.updateTask(task)
+        val name = binding.editTextTaskName.text.toString()
+        val detail = binding.editTextTaskDetail.text.toString()
+        val date = binding.editTextDeadline.text.toString()
+        if (name.isEmpty() && detail.isEmpty() && date.isEmpty()) {
+            viewModel.deleteTask(task)
+        } else {
+            task.name = name
+            task.detail = detail
+            viewModel.updateTask(task)
+        }
 
         val imm = requireNotNull(activity).getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(binding.layout.windowToken, 0)

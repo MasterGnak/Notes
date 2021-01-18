@@ -1,11 +1,7 @@
 package com.example.taskmanager.tasktracker
 
 import android.os.Bundle
-import android.text.InputType
-import android.util.Log
 import android.view.*
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +13,7 @@ import com.example.taskmanager.R
 import com.example.taskmanager.database.Task
 import com.example.taskmanager.database.TaskDatabase
 import com.example.taskmanager.databinding.FragmentTaskTrackerBinding
-import kotlinx.android.synthetic.main.task_name_edit_text.view.*
+
 
 class TaskTrackerFragment : Fragment() {
 
@@ -75,10 +71,10 @@ class TaskTrackerFragment : Fragment() {
         ))
 
         viewModel.addButtonClicked.observe(viewLifecycleOwner, {
-            if (it == true) {
+            if (it) {
                 val newTask = Task()
                 viewModel.addTask(newTask)
-                viewModel.displayTaskDetails(newTask)
+                viewModel.displayTaskDetails(viewModel.getLastTask())
                 viewModel.onAddButtonClickedFinish()
             }
         })

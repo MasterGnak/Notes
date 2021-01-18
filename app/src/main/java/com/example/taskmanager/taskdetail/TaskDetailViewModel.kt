@@ -2,15 +2,9 @@ package com.example.taskmanager.taskdetail
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.taskmanager.calendar
 import com.example.taskmanager.database.Task
 import com.example.taskmanager.database.TaskDatabase
-import com.example.taskmanager.dateFormat
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.lang.Exception
-import java.util.*
+import kotlinx.coroutines.*
 
 
 class TaskDetailViewModel(task: Task, application: Application) : AndroidViewModel(application) {
@@ -52,6 +46,18 @@ class TaskDetailViewModel(task: Task, application: Application) : AndroidViewMod
     private suspend fun update(task: Task) {
         withContext(Dispatchers.IO) {
             database.update(task)
+        }
+    }
+
+    fun deleteTask(task: Task) {
+        runBlocking {
+            delete(task)
+        }
+    }
+
+    private suspend fun delete(task: Task) {
+        withContext(Dispatchers.IO) {
+            database.deleteTask(task)
         }
     }
 

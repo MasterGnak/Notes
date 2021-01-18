@@ -2,6 +2,7 @@ package com.example.taskmanager.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.Deferred
 
 @Dao
 interface TaskDatabaseDao {
@@ -18,6 +19,9 @@ interface TaskDatabaseDao {
     @Delete
     fun deleteTasks(tasks: List<Task>)
 
+    @Delete
+    fun deleteTask(task: Task)
+
     @Query("DELETE FROM task_table")
     fun clear()
 
@@ -26,6 +30,9 @@ interface TaskDatabaseDao {
 
     @Query("SELECT * FROM task_table ORDER BY taskId DESC")
     fun getAllTasks(): LiveData<List<Task>>
+
+    @Query("SELECT * FROM task_table ORDER BY taskId DESC LIMIT 1")
+    fun getLastTask(): Task
 
     @Query("SELECT * FROM task_table ORDER BY date ASC")
     fun getAllTasksDeadlineSorted(): LiveData<List<Task>>
