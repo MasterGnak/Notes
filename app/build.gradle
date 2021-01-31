@@ -52,4 +52,5 @@ dependencies {
     implementation "androidx.room:room-ktx:$version_room"
     implementation 'androidx.recyclerview:recyclerview-selection:1.0.0'
     implementation "com.google.android.material:material:1.2.1"
+    implementation 'com.github.kizitonwose:CalendarView:1.0.1'
 }

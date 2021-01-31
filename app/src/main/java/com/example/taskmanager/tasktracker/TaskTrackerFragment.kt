@@ -73,7 +73,6 @@ class TaskTrackerFragment : Fragment() {
         viewModel.addButtonClicked.observe(viewLifecycleOwner, {
             if (it) {
                 val newTask = Task()
-//                viewModel.addTask(newTask)
                 viewModel.displayTaskDetails(newTask)
                 viewModel.onAddButtonClickedFinish()
             }
@@ -103,6 +102,7 @@ class TaskTrackerFragment : Fragment() {
                 viewModel.onSettingsButtonClickedFinish()
             }
         })
+
 
         setHasOptionsMenu(true)
         return binding.root

@@ -132,4 +132,7 @@ class TaskTrackerViewModel(val database: TaskDatabaseDao, application: Applicati
             currentPrefs = newPrefs!!
         }
     }
+
+
+
 }

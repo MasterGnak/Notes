@@ -14,7 +14,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 
-val dateFormat = SimpleDateFormat("dd.MM.yy", Locale.ENGLISH)
+val dateFormat = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
 val calendar: Calendar = Calendar.getInstance()
 fun initializeFormat() {
     val beginningOfCentury = Calendar.getInstance()
