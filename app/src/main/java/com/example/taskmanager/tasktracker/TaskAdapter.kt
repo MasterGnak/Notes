@@ -29,7 +29,7 @@ class TaskAdapter(prefs: SharedPreferences) : ListAdapter<Task, TaskAdapter.View
     }
 
     override fun getItemId(position: Int): Long {
-        return getItem(position).taskId
+        return getItem(position).taskId!!
     }
 
     private var selectionTracker: SelectionTracker<Long>? = null
@@ -61,7 +61,7 @@ class TaskAdapter(prefs: SharedPreferences) : ListAdapter<Task, TaskAdapter.View
 
         fun bind(task: Task, isActivated: Boolean) {
             binding.task = task
-            details.key = task.taskId
+            details.key = task.taskId!!
             itemView.isActivated = isActivated
             binding.executePendingBindings()
         }

@@ -57,7 +57,13 @@ class TaskDetailFragment : Fragment() {
         if (name.isNotEmpty() || detail.isNotEmpty() || date.isNotEmpty()) {
             task.name = name
             task.detail = detail
-            viewModel.addTask(task)
+            if (task.initialized) {
+                viewModel.updateTask(task)
+            } else {
+                task.initialized = true
+                viewModel.addTask(task)
+            }
+
         }
 
         val imm = requireNotNull(activity).getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager

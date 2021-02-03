@@ -12,7 +12,7 @@ import java.util.*
 data class Task(
 
     @PrimaryKey(autoGenerate = true)
-    var taskId: Long = 0L,
+    var taskId: Long? = null,
 
     @ColumnInfo
     var name: String = "",
@@ -26,4 +26,6 @@ data class Task(
     @ColumnInfo
     var date: Long = 0L
 
-): Parcelable
+): Parcelable {
+    var initialized = false
+}

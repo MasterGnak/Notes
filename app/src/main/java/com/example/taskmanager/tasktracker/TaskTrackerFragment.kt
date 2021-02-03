@@ -59,7 +59,7 @@ class TaskTrackerFragment : Fragment() {
             //onLongClick
             {
                 viewModel.enableSelection()
-                tracker.select(it.taskId)
+                tracker.select(it.taskId!!)
                 activity?.invalidateOptionsMenu()
                 true
             },

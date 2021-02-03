@@ -48,6 +48,16 @@ class TaskDetailViewModel(task: Task, application: Application) : AndroidViewMod
         }
     }
 
+    fun updateTask(task: Task) {
+        viewModelScope.launch {
+            update(task)
+        }
+    }
 
+    private suspend fun update(task:Task) {
+        withContext(Dispatchers.IO){
+            database.update(task)
+        }
+    }
 
 }
