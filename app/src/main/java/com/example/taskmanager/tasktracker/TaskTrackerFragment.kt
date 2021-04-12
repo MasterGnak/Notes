@@ -70,15 +70,15 @@ class TaskTrackerFragment : Fragment() {
             }
         ))
 
-        viewModel.addButtonClicked.observe(viewLifecycleOwner, {
+        viewModel.addButtonClicked.observe(viewLifecycleOwner) {
             if (it) {
                 val newTask = Task()
                 viewModel.displayTaskDetails(newTask)
                 viewModel.onAddButtonClickedFinish()
             }
-        })
+        }
 
-        viewModel.nukeClicked.observe(viewLifecycleOwner, { bool ->
+        viewModel.nukeClicked.observe(viewLifecycleOwner) { bool ->
             if (bool) {
                 viewModel.nuke(tracker.selection.mapNotNull {
                     val task = viewModel.getTask(it)
@@ -87,21 +87,21 @@ class TaskTrackerFragment : Fragment() {
                 tracker.clearSelection()
                 viewModel.onNukeFinished()
             }
-        })
+        }
 
-        viewModel.navigateToSelectedTask.observe(viewLifecycleOwner, {
+        viewModel.navigateToSelectedTask.observe(viewLifecycleOwner) {
             if (it != null) {
                 this.findNavController().navigate(TaskTrackerFragmentDirections.actionShowDetail(it))
                 viewModel.displayTaskFinish()
             }
-        })
+        }
 
-        viewModel.settingsButtonClicked.observe(viewLifecycleOwner, {
+        viewModel.settingsButtonClicked.observe(viewLifecycleOwner) {
             if (it == true) {
                 this.findNavController().navigate(TaskTrackerFragmentDirections.actionShowSettings())
                 viewModel.onSettingsButtonClickedFinish()
             }
-        })
+        }
 
 
         setHasOptionsMenu(true)
